@@ -1,3 +1,5 @@
+import React from "react";
+
 interface FlashcardProps {
   verb: string;
   translation: string;
