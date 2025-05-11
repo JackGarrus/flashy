@@ -1,3 +1,7 @@
+/// CREA IL PROGETTO CON:
+// npx create-react-app flashcard-app --template typescript
+
+// src/data/verbs.json
 [
   {
     "id": 1,
@@ -12,5 +16,61 @@
     "translation": "andare (a piedi)",
     "example": "Ich gehe zur Schule.",
     "category": "Movimento"
+  },
+  {
+    "id": 3,
+    "verb": "trinken",
+    "translation": "bere",
+    "example": "Ich trinke Wasser.",
+    "category": "Mangiare"
+  },
+  {
+    "id": 4,
+    "verb": "sprechen",
+    "translation": "parlare",
+    "example": "Ich spreche Deutsch.",
+    "category": "Comunicazione"
+  },
+  {
+    "id": 5,
+    "verb": "lesen",
+    "translation": "leggere",
+    "example": "Ich lese ein Buch.",
+    "category": "Tempo libero"
+  },
+  {
+    "id": 6,
+    "verb": "schreiben",
+    "translation": "scrivere",
+    "example": "Ich schreibe einen Brief.",
+    "category": "Comunicazione"
+  },
+  {
+    "id": 7,
+    "verb": "wohnen",
+    "translation": "abitare",
+    "example": "Ich wohne in Berlin.",
+    "category": "Casa"
+  },
+  {
+    "id": 8,
+    "verb": "arbeiten",
+    "translation": "lavorare",
+    "example": "Ich arbeite in einem Büro.",
+    "category": "Lavoro"
+  },
+  {
+    "id": 9,
+    "verb": "fahren",
+    "translation": "andare (con un mezzo)",
+    "example": "Ich fahre mit dem Bus.",
+    "category": "Movimento"
+  },
+  {
+    "id": 10,
+    "verb": "lernen",
+    "translation": "studiare, imparare",
+    "example": "Ich lerne Deutsch.",
+    "category": "Scuola"
   }
 ]
