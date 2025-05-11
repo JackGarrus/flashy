@@ -12,11 +12,15 @@ interface Verb {
 interface QuizProps {
   selectedCategory: string;
   restrictToCategory: boolean;
+  onlyFavorites: boolean;
+  favorites: number[];
 }
 
 const Quiz: React.FC<QuizProps> = ({
   selectedCategory,
   restrictToCategory,
+  onlyFavorites,
+  favorites,
 }) => {
   const [cards, setCards] = useState<Verb[]>([]);
   const [index, setIndex] = useState(0);
@@ -25,15 +29,17 @@ const Quiz: React.FC<QuizProps> = ({
 
   useEffect(() => {
     const allCards: Verb[] = verbs;
-    const filtered =
-      restrictToCategory && selectedCategory !== "Tutte"
-        ? allCards.filter((card) => card.category === selectedCategory)
-        : allCards;
+    let filtered = allCards;
+    if (onlyFavorites) {
+      filtered = filtered.filter((card) => favorites.includes(card.id));
+    } else if (restrictToCategory && selectedCategory !== "Tutte") {
+      filtered = filtered.filter((card) => card.category === selectedCategory);
+    }
     setCards(filtered);
     setIndex(0);
     setInput("");
     setFeedback(null);
-  }, [selectedCategory, restrictToCategory]);
+  }, [selectedCategory, restrictToCategory, onlyFavorites, favorites]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

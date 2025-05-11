@@ -7,8 +7,37 @@ const App: React.FC = () => {
   const [mode, setMode] = useState<"flashcard" | "quiz">("flashcard");
   const [selectedCategory, setSelectedCategory] = useState<string>("Tutte");
   const [restrictToCategory, setRestrictToCategory] = useState<boolean>(false);
+  const [favorites, setFavorites] = useState<number[]>(() => {
+    const stored = localStorage.getItem("favorites");
+    return stored ? JSON.parse(stored) : [];
+  });
+  const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
 
-  const uniqueCategories = ["Tutte", "Mangiare", "Movimento"]; // puoi generare dinamicamente in futuro
+  const uniqueCategories = [
+    "Tutte",
+    "Preferiti",
+    "Mangiare",
+    "Movimento",
+    "Comunicazione",
+    "Tempo libero",
+    "Casa",
+    "Lavoro",
+    "Scuola",
+  ];
+
+  const handleToggleFavorite = (id: number) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
+    );
+    localStorage.setItem(
+      "favorites",
+      JSON.stringify(
+        favorites.includes(id)
+          ? favorites.filter((f) => f !== id)
+          : [...favorites, id]
+      )
+    );
+  };
 
   return (
     <div className="container">
@@ -40,23 +69,39 @@ const App: React.FC = () => {
           </select>
         </label>
         {mode === "quiz" && (
-          <label style={{ marginLeft: "1rem" }}>
-            <input
-              type="checkbox"
-              checked={restrictToCategory}
-              onChange={(e) => setRestrictToCategory(e.target.checked)}
-            />{" "}
-            Usa solo verbi di questa categoria
-          </label>
+          <div>
+            <label style={{ marginLeft: "1rem" }}>
+              <input
+                type="checkbox"
+                checked={restrictToCategory}
+                onChange={(e) => setRestrictToCategory(e.target.checked)}
+              />{" "}
+              Usa solo verbi di questa categoria
+            </label>
+            <label style={{ marginLeft: "1rem" }}>
+              <input
+                type="checkbox"
+                checked={onlyFavorites}
+                onChange={(e) => setOnlyFavorites(e.target.checked)}
+              />{" "}
+              Solo preferiti
+            </label>
+          </div>
         )}
       </div>
 
       {mode === "flashcard" ? (
-        <FlashcardViewer />
+        <FlashcardViewer
+          selectedCategory={selectedCategory}
+          favorites={favorites}
+          onToggleFavorite={handleToggleFavorite}
+        />
       ) : (
         <Quiz
           selectedCategory={selectedCategory}
           restrictToCategory={restrictToCategory}
+          onlyFavorites={onlyFavorites}
+          favorites={favorites}
         />
       )}
     </div>

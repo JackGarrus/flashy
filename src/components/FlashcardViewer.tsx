@@ -10,11 +10,20 @@ interface Verb {
   category: string;
 }
 
-const FlashcardViewer: React.FC = () => {
+interface FlashcardViewerProps {
+  selectedCategory: string;
+  favorites: number[];
+  onToggleFavorite: (id: number) => void;
+}
+
+const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
+  selectedCategory,
+  favorites,
+  onToggleFavorite,
+}) => {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [cards, setCards] = useState<Verb[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("Tutte");
 
   useEffect(() => {
     setCards(verbs);
@@ -23,6 +32,8 @@ const FlashcardViewer: React.FC = () => {
   const filteredCards =
     selectedCategory === "Tutte"
       ? cards
+      : selectedCategory === "Preferiti"
+      ? cards.filter((card) => favorites.includes(card.id))
       : cards.filter((card) => card.category === selectedCategory);
 
   const handleNext = () => {
@@ -37,41 +48,20 @@ const FlashcardViewer: React.FC = () => {
     setRevealed(false);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
-    setIndex(0);
-    setRevealed(false);
-  };
-
-  const uniqueCategories = [
-    "Tutte",
-    ...Array.from(new Set(cards.map((card) => card.category))),
-  ];
-
   if (filteredCards.length === 0) return <p>Nessuna flashcard disponibile.</p>;
 
   const current = filteredCards[index];
 
   return (
     <div className="container">
-      <div style={{ marginBottom: "1rem" }}>
-        <label>
-          Categoria:
-          <select value={selectedCategory} onChange={handleCategoryChange}>
-            {uniqueCategories.map((cat, idx) => (
-              <option key={idx} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
       <Flashcard
         verb={current.verb}
         translation={current.translation}
         example={current.example}
         revealed={revealed}
         onReveal={() => setRevealed(true)}
+        isFavorite={favorites.includes(current.id)}
+        onToggleFavorite={() => onToggleFavorite(current.id)}
       />
       <div>
         <button onClick={handlePrev} className="btn">

@@ -6,6 +6,8 @@ interface FlashcardProps {
   example: string;
   revealed: boolean;
   onReveal: () => void;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 }
 
 const speak = (text: string, lang: string = "de-DE") => {
@@ -20,10 +22,15 @@ const Flashcard: React.FC<FlashcardProps> = ({
   example,
   revealed,
   onReveal,
+  isFavorite,
+  onToggleFavorite,
 }) => {
   return (
     <div className="card">
-      <h2>{verb}</h2>
+      <h2>
+        {verb}{" "}
+        <button onClick={onToggleFavorite}>{isFavorite ? "⭐" : "☆"}</button>
+      </h2>
       <button onClick={() => speak(verb)}>🔊 Pronuncia</button>
       {!revealed ? (
         <button onClick={onReveal} className="btn">
