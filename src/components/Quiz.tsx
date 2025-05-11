@@ -9,15 +9,31 @@ interface Verb {
   category: string;
 }
 
-const Quiz: React.FC = () => {
+interface QuizProps {
+  selectedCategory: string;
+  restrictToCategory: boolean;
+}
+
+const Quiz: React.FC<QuizProps> = ({
+  selectedCategory,
+  restrictToCategory,
+}) => {
   const [cards, setCards] = useState<Verb[]>([]);
   const [index, setIndex] = useState(0);
   const [input, setInput] = useState("");
   const [feedback, setFeedback] = useState<string | null>(null);
 
   useEffect(() => {
-    setCards(verbs);
-  }, []);
+    const allCards: Verb[] = verbs;
+    const filtered =
+      restrictToCategory && selectedCategory !== "Tutte"
+        ? allCards.filter((card) => card.category === selectedCategory)
+        : allCards;
+    setCards(filtered);
+    setIndex(0);
+    setInput("");
+    setFeedback(null);
+  }, [selectedCategory, restrictToCategory]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +50,7 @@ const Quiz: React.FC = () => {
     setFeedback(null);
   };
 
-  if (cards.length === 0) return <p>Caricamento quiz...</p>;
+  if (cards.length === 0) return <p>Nessuna domanda disponibile.</p>;
 
   return (
     <div className="card">
