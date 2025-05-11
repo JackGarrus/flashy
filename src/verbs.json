@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "verb": "essen",
+    "translation": "mangiare",
+    "example": "Ich esse einen Apfel.",
+    "category": "Mangiare"
+  },
+  {
+    "id": 2,
+    "verb": "gehen",
+    "translation": "andare (a piedi)",
+    "example": "Ich gehe zur Schule.",
+    "category": "Movimento"
+  }
+]
