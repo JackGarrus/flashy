@@ -28,41 +28,48 @@ const Quiz: React.FC<QuizProps> = ({
   const [feedback, setFeedback] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [locked, setLocked] = useState(false);
+  const [mistakes, setMistakes] = useState<Verb[]>([]);
 
   useEffect(() => {
     const allCards: Verb[] = verbs;
     let filtered = allCards;
-
     if (onlyFavorites) {
-      filtered = allCards.filter((card) => favorites.includes(card.id));
+      filtered = filtered.filter((card) => favorites.includes(card.id));
     } else if (restrictToCategory && selectedCategory !== "Tutte") {
-      filtered = allCards.filter((card) => card.category === selectedCategory);
+      filtered = filtered.filter((card) => card.category === selectedCategory);
     } else if (selectedCategory !== "Tutte") {
-      filtered = allCards.filter((card) => card.category === selectedCategory);
+      filtered = filtered.filter((card) => card.category === selectedCategory);
     }
-
     setCards(filtered);
     setIndex(0);
     setInput("");
     setFeedback(null);
     setScore(0);
     setLocked(false);
+    setMistakes([]);
   }, [selectedCategory, restrictToCategory, onlyFavorites, favorites]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (locked || input.trim() === "") return;
+    const currentCard = cards[index];
     const isCorrect =
-      input.trim().toLowerCase() === cards[index].verb.toLowerCase();
+      input.trim().toLowerCase() === currentCard.verb.toLowerCase();
     setLocked(true);
     if (isCorrect) {
       setFeedback("✅ Corretto!");
       setScore((prev) => prev + 1);
+      setMistakes((prev) => prev.filter((m) => m.id !== currentCard.id)); // ← rimuove se presente
       setTimeout(() => {
         goToNext();
       }, 1000);
     } else {
-      setFeedback(`❌ Sbagliato. Era "${cards[index].verb}"`);
+      setFeedback(`❌ Sbagliato. Era "${currentCard.verb}"`);
+      setMistakes((prev) =>
+        prev.some((m) => m.id === currentCard.id)
+          ? prev
+          : [...prev, currentCard]
+      ); // ← evita duplicati
       setTimeout(() => {
         setFeedback(null);
         setInput("");
@@ -78,11 +85,26 @@ const Quiz: React.FC<QuizProps> = ({
     setLocked(false);
   };
 
+  const percentage =
+    cards.length > 0 ? Math.round((score / cards.length) * 100) : 0;
+
+  const reviewList =
+    mistakes.length > 0 ? (
+      <div style={{ marginTop: "1rem" }}>
+        <h4>Verbi da ripassare:</h4>
+        <ul>
+          {mistakes.map((m, i) => (
+            <li key={`${m.id}-${i}`}>
+              {m.verb} – {m.translation}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ) : null;
+
   if (cards.length === 0) return <p>Nessuna domanda disponibile.</p>;
 
   const isInputEmpty = input.trim() === "";
-  const percentage =
-    cards.length > 0 ? Math.round((score / cards.length) * 100) : 0;
 
   return (
     <div className="card">
@@ -105,6 +127,7 @@ const Quiz: React.FC<QuizProps> = ({
       <p>
         Punteggio: {score} / {cards.length} ({percentage}%)
       </p>
+      {reviewList}
     </div>
   );
 };
