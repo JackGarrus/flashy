@@ -1,7 +1,3 @@
-/// CREA IL PROGETTO CON:
-// npx create-react-app flashcard-app --template typescript
-
-// src/data/verbs.json
 [
   {
     "id": 1,
