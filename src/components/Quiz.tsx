@@ -29,6 +29,7 @@ const Quiz: React.FC<QuizProps> = ({
   const [score, setScore] = useState(0);
   const [locked, setLocked] = useState(false);
   const [mistakes, setMistakes] = useState<Verb[]>([]);
+  const [reverseMode, setReverseMode] = useState(false);
 
   useEffect(() => {
     const allCards: Verb[] = verbs;
@@ -53,23 +54,25 @@ const Quiz: React.FC<QuizProps> = ({
     e.preventDefault();
     if (locked || input.trim() === "") return;
     const currentCard = cards[index];
-    const isCorrect =
-      input.trim().toLowerCase() === currentCard.verb.toLowerCase();
+    const expected = reverseMode
+      ? currentCard.translation.toLowerCase()
+      : currentCard.verb.toLowerCase();
+    const isCorrect = input.trim().toLowerCase() === expected;
     setLocked(true);
     if (isCorrect) {
       setFeedback("✅ Corretto!");
       setScore((prev) => prev + 1);
-      setMistakes((prev) => prev.filter((m) => m.id !== currentCard.id)); // ← rimuove se presente
+      setMistakes((prev) => prev.filter((m) => m.id !== currentCard.id));
       setTimeout(() => {
         goToNext();
       }, 1000);
     } else {
-      setFeedback(`❌ Sbagliato. Era "${currentCard.verb}"`);
+      setFeedback(`❌ Sbagliato. Era "${expected}"`);
       setMistakes((prev) =>
         prev.some((m) => m.id === currentCard.id)
           ? prev
           : [...prev, currentCard]
-      ); // ← evita duplicati
+      );
       setTimeout(() => {
         setFeedback(null);
         setInput("");
@@ -83,6 +86,18 @@ const Quiz: React.FC<QuizProps> = ({
     setInput("");
     setFeedback(null);
     setLocked(false);
+  };
+
+  const reviewMistakes = () => {
+    if (mistakes.length > 0) {
+      setCards(mistakes);
+      setIndex(0);
+      setScore(0);
+      setInput("");
+      setFeedback(null);
+      setLocked(false);
+      setMistakes([]);
+    }
   };
 
   const percentage =
@@ -99,16 +114,35 @@ const Quiz: React.FC<QuizProps> = ({
             </li>
           ))}
         </ul>
+        <button className="btn" onClick={reviewMistakes}>
+          Ripeti questi
+        </button>
       </div>
     ) : null;
 
   if (cards.length === 0) return <p>Nessuna domanda disponibile.</p>;
 
   const isInputEmpty = input.trim() === "";
+  const current = cards[index];
 
   return (
     <div className="card">
-      <p>📝 Come si dice "{cards[index].translation}" in tedesco?</p>
+      <label style={{ display: "block", marginBottom: "1rem" }}>
+        <input
+          type="checkbox"
+          checked={reverseMode}
+          onChange={() => setReverseMode(!reverseMode)}
+        />{" "}
+        Modalità inversa (DE → IT)
+      </label>
+
+      <p>
+        📝{" "}
+        {reverseMode
+          ? `Cosa significa "${current.verb}" in italiano?`
+          : `Come si dice "${current.translation}" in tedesco?`}
+      </p>
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -120,6 +154,7 @@ const Quiz: React.FC<QuizProps> = ({
           Verifica
         </button>
       </form>
+
       {feedback && <p>{feedback}</p>}
       <button onClick={goToNext} className="btn" disabled={locked}>
         Prossima
