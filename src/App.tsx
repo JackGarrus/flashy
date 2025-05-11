@@ -1,4 +1,4 @@
-import FlashcardViewer from "./FlashcardViewer";
+import FlashcardViewer from "./components/FlashcardViewer";
 
 const App = () => {
   return (

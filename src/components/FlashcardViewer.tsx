@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Flashcard from "./Flashcard";
-import verbs from "./verbs.json";
+import verbs from "../data/verbs.json";
 
 interface Verb {
   id: number;
@@ -34,7 +34,7 @@ const FlashcardViewer: React.FC = () => {
   const current = cards[index];
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="container">
       <Flashcard
         verb={current.verb}
         translation={current.translation}
@@ -42,11 +42,11 @@ const FlashcardViewer: React.FC = () => {
         revealed={revealed}
         onReveal={() => setRevealed(true)}
       />
-      <div className="flex gap-4">
-        <button onClick={handlePrev} className="px-4 py-2 bg-gray-300 rounded">
+      <div>
+        <button onClick={handlePrev} className="btn">
           ←
         </button>
-        <button onClick={handleNext} className="px-4 py-2 bg-gray-300 rounded">
+        <button onClick={handleNext} className="btn">
           →
         </button>
       </div>
