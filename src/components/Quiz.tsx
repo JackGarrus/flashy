@@ -44,13 +44,16 @@ const Quiz: React.FC<QuizProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (locked || input.trim() === "") return;
     const { isCorrect, expected } = checkAnswer(
       input,
       currentCard,
       mixedReverse
     );
+
     setLocked(true);
+
     if (isCorrect) {
       setFeedback("✅ Corretto!");
       setScore((prev) => prev + 1);

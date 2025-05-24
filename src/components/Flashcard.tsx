@@ -1,6 +1,6 @@
 import React from "react";
 
-interface FlashcardProps {
+interface Props {
   verb: string;
   translation: string;
   example: string;
@@ -16,7 +16,7 @@ const speak = (text: string, lang: string = "de-DE") => {
   window.speechSynthesis.speak(utterance);
 };
 
-const Flashcard: React.FC<FlashcardProps> = ({
+const Flashcard: React.FC<Props> = ({
   verb,
   translation,
   example,
