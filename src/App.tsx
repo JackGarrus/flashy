@@ -4,15 +4,18 @@ import Quiz from "./components/Quiz";
 import "./index.css";
 
 const App: React.FC = () => {
+  // move the modes into a type
   const [mode, setMode] = useState<"flashcard" | "quiz">("flashcard");
+  // category functionality
   const [selectedCategory, setSelectedCategory] = useState<string>("Tutte");
   const [restrictToCategory, setRestrictToCategory] = useState<boolean>(false);
+  // favoourite functionality hook
   const [favorites, setFavorites] = useState<number[]>(() => {
     const stored = localStorage.getItem("favorites");
     return stored ? JSON.parse(stored) : [];
   });
   const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
-
+  // make it english
   const uniqueCategories = [
     "Tutte",
     "Preferiti",
@@ -24,7 +27,7 @@ const App: React.FC = () => {
     "Lavoro",
     "Scuola",
   ];
-
+  // this can be a hook
   const handleToggleFavorite = (id: number) => {
     setFavorites((prev) =>
       prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
@@ -55,6 +58,7 @@ const App: React.FC = () => {
       </div>
 
       <div style={{ marginBottom: "1rem" }}>
+        {/* category functionality */}
         <label>
           Categoria:
           <select
@@ -68,6 +72,7 @@ const App: React.FC = () => {
             ))}
           </select>
         </label>
+        {/* filters */}
         {mode === "quiz" && (
           <div>
             <label style={{ marginLeft: "1rem" }}>
