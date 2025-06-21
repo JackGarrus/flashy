@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import FlashcardViewer from "./components/FlashcardViewer";
 import Quiz from "./components/Quiz";
+import ControlPanel from "./components/ControlPanel";
 import { useFavorites } from "./hooks/useFavorites";
 import { useCategoryFilter } from "./hooks/useCategoryFilter";
-import "./index.css";
+import "./App.css";
+
+/**
+ * Main application component.
+ * - Manages global app state such as the current mode (flashcard or quiz),
+ * category selection, and favorite flashcards.
+ * - Delegates UI rendering of filters and controls to the ControlPanel component,
+ * and switches between FlashcardViewer and Quiz based on the selected mode.
+ */
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<"flashcard" | "quiz">("flashcard");
@@ -20,54 +29,17 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <div style={{ marginBottom: "1rem" }}>
-        <label>
-          Modalità:
-          <select
-            value={mode}
-            onChange={(e) => setMode(e.target.value as "flashcard" | "quiz")}
-          >
-            <option value="flashcard">Flashcard</option>
-            <option value="quiz">Quiz</option>
-          </select>
-        </label>
-      </div>
-
-      <div style={{ marginBottom: "1rem" }}>
-        <label>
-          Categoria:
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            {categories.map((cat, idx) => (
-              <option key={idx} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </label>
-        {mode === "quiz" && (
-          <div>
-            <label style={{ marginLeft: "1rem" }}>
-              <input
-                type="checkbox"
-                checked={restrictToCategory}
-                onChange={(e) => setRestrictToCategory(e.target.checked)}
-              />{" "}
-              Usa solo verbi di questa categoria
-            </label>
-            <label style={{ marginLeft: "1rem" }}>
-              <input
-                type="checkbox"
-                checked={onlyFavorites}
-                onChange={(e) => setOnlyFavorites(e.target.checked)}
-              />{" "}
-              Solo preferiti
-            </label>
-          </div>
-        )}
-      </div>
+      <ControlPanel
+        mode={mode}
+        onModeChange={setMode}
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+        restrictToCategory={restrictToCategory}
+        onToggleRestrict={setRestrictToCategory}
+        onlyFavorites={onlyFavorites}
+        onToggleOnlyFavorites={setOnlyFavorites}
+      />
 
       {mode === "flashcard" ? (
         <FlashcardViewer
