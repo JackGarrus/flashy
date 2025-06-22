@@ -16,4 +16,15 @@ describe("QuizModeSelector", () => {
     });
     expect(setMode).toHaveBeenCalledWith("mixed");
   });
+
+  it("renders all available mode options", () => {
+    render(<QuizModeSelector mode="it-to-de" setMode={jest.fn()} />);
+    expect(
+      screen.getByRole("option", { name: /IT → DE/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("option", { name: /DE → IT/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: /Mista/i })).toBeInTheDocument();
+  });
 });
