@@ -1,5 +1,3 @@
-// src/components/QuestionForm.test.tsx
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import QuestionForm from "./QuestionForm";
 
@@ -36,7 +34,7 @@ describe("QuestionForm", () => {
 
   it("calls onSubmit when form is submitted", () => {
     render(<QuestionForm {...baseProps} isInputEmpty={false} />);
-    const form = screen.getByRole("form");
+    const form = screen.getByLabelText("quiz-form");
     fireEvent.submit(form);
     expect(baseProps.onSubmit).toHaveBeenCalled();
   });

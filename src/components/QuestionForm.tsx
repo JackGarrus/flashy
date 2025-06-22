@@ -1,4 +1,19 @@
-import React from "react";
+import "./QuestionForm.css";
+
+/**
+ * QuestionForm displays the current quiz question and manages user input.
+ * Handles submission, disables fields as needed, and provides visual feedback.
+ *
+ * Props:
+ * - input: current text input value
+ * - onChange: updates input state
+ * - onSubmit: submits the answer form
+ * - disabled: whether input/buttons should be disabled
+ * - isInputEmpty: disables submit when input is blank
+ * - prompt: current quiz question
+ * - feedback: message shown after submission
+ * - onNext: goes to the next question
+ */
 
 interface QuestionFormProps {
   input: string;
@@ -22,14 +37,15 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
   onNext,
 }) => {
   return (
-    <>
-      <p>📝 {prompt}</p>
+    <div className="question-form">
+      <p className="prompt">📝 {prompt}</p>
       <form onSubmit={onSubmit} aria-label="quiz-form">
         <input
           type="text"
           value={input}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
+          aria-label="answer-input"
         />
         <button
           type="submit"
@@ -39,11 +55,11 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
           Verifica
         </button>
       </form>
-      {feedback && <p>{feedback}</p>}
-      <button onClick={onNext} className="btn" disabled={disabled}>
+      {feedback && <p className="feedback">{feedback}</p>}
+      <button onClick={onNext} className="btn next" disabled={disabled}>
         Prossima
       </button>
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,22 @@
+.question-form {
+  margin-top: 1rem;
+}
+
+.prompt {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.feedback {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #333;
+}
+
+.btn {
+  margin-left: 0.5rem;
+}
+
+.btn.next {
+  margin-top: 1rem;
+}
