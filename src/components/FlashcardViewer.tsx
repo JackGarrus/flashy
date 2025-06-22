@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Flashcard from "./Flashcard";
-import verbs from "../data/verbs.json";
+import { useFlashcardNavigator } from "../hooks/useFlashcardNavigator";
 
-interface Verb {
-  id: number;
-  verb: string;
-  translation: string;
-  example: string;
-  category: string;
-}
+/**
+ * FlashcardViewer displays flashcards one at a time based on the selected category.
+ * It receives the current category and list of favorite IDs as props,
+ * and uses a custom hook to manage filtered cards, navigation, and reveal state.
+ * The component also supports marking/unmarking the current flashcard as favorite.
+ */
 
 interface FlashcardViewerProps {
   selectedCategory: string;
@@ -21,36 +20,11 @@ const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
   favorites,
   onToggleFavorite,
 }) => {
-  const [index, setIndex] = useState(0);
-  const [revealed, setRevealed] = useState(false);
-  const [cards, setCards] = useState<Verb[]>([]);
+  const { current, revealed, setRevealed, next, prev, hasCards, isFavorite } =
+    useFlashcardNavigator(selectedCategory, favorites);
 
-  useEffect(() => {
-    setCards(verbs);
-  }, []);
-
-  const filteredCards =
-    selectedCategory === "Tutte"
-      ? cards
-      : selectedCategory === "Preferiti"
-      ? cards.filter((card) => favorites.includes(card.id))
-      : cards.filter((card) => card.category === selectedCategory);
-
-  const handleNext = () => {
-    setIndex((prev) => (prev + 1) % filteredCards.length);
-    setRevealed(false);
-  };
-
-  const handlePrev = () => {
-    setIndex(
-      (prev) => (prev - 1 + filteredCards.length) % filteredCards.length
-    );
-    setRevealed(false);
-  };
-
-  if (filteredCards.length === 0) return <p>Nessuna flashcard disponibile.</p>;
-
-  const current = filteredCards[index];
+  if (!hasCards) return <p>Nessuna flashcard disponibile.</p>;
+  if (!current) return null;
 
   return (
     <div className="container">
@@ -60,14 +34,14 @@ const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
         example={current.example}
         revealed={revealed}
         onReveal={() => setRevealed(true)}
-        isFavorite={favorites.includes(current.id)}
+        isFavorite={isFavorite}
         onToggleFavorite={() => onToggleFavorite(current.id)}
       />
       <div>
-        <button onClick={handlePrev} className="btn">
+        <button onClick={prev} className="btn">
           ←
         </button>
-        <button onClick={handleNext} className="btn">
+        <button onClick={next} className="btn">
           →
         </button>
       </div>
