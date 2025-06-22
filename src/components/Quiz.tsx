@@ -3,8 +3,19 @@ import { QuizProps } from "../types";
 import QuestionForm from "./QuestionForm";
 import MistakeList from "./MistakeList";
 import QuizModeSelector from "./QuizModeSelector";
-import { checkAnswer } from "../utils/checkAnswer";
 import { useQuizState } from "../hooks/useQuizState";
+import "./Quiz.css";
+
+/**
+ * Quiz component that renders a verb translation quiz based on the selected filters.
+ * Supports multiple quiz modes (IT→DE, DE→IT, Mixed).
+ * Uses useQuizState to handle quiz logic, scoring, mistakes, and progression.
+ *
+ * Children:
+ * - QuizModeSelector: dropdown to switch translation direction.
+ * - QuestionForm: displays a question and input form.
+ * - MistakeList: allows repeating mistakes at the end.
+ */
 
 const Quiz: React.FC<QuizProps> = ({
   selectedCategory,
@@ -18,14 +29,12 @@ const Quiz: React.FC<QuizProps> = ({
     input,
     setInput,
     score,
-    setScore,
     locked,
-    setLocked,
     mistakes,
-    setMistakes,
     goToNext,
     reviewMistakes,
     currentCard,
+    handleSubmit,
   } = useQuizState(
     selectedCategory,
     restrictToCategory,
@@ -42,45 +51,19 @@ const Quiz: React.FC<QuizProps> = ({
   const isMixed = mode === "mixed";
   const mixedReverse = isMixed ? index % 2 === 1 : isReverse;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (locked || input.trim() === "") return;
-    const { isCorrect, expected } = checkAnswer(
-      input,
-      currentCard,
-      mixedReverse
-    );
-
-    setLocked(true);
-
-    if (isCorrect) {
-      setFeedback("✅ Corretto!");
-      setScore((prev) => prev + 1);
-      setMistakes((prev) => prev.filter((m) => m.id !== currentCard.id));
-      setTimeout(() => {
-        goToNext();
-        setFeedback(null);
-      }, 1000);
-    } else {
-      setFeedback(`❌ Sbagliato. Era "${expected}"`);
-      setMistakes((prev) =>
-        prev.some((m) => m.id === currentCard.id)
-          ? prev
-          : [...prev, currentCard]
-      );
-      setTimeout(() => {
-        setFeedback(null);
-        setInput("");
-        setLocked(false);
-      }, 1000);
-    }
+  const onSubmit = (e: React.FormEvent) => {
+    handleSubmit(e, input, setFeedback, setInput, mixedReverse);
   };
 
   const percentage =
     cards.length > 0 ? Math.round((score / cards.length) * 100) : 0;
 
-  if (cards.length === 0) return <p>Nessuna domanda disponibile.</p>;
+  if (cards.length === 0 || !currentCard)
+    return <p>Nessuna domanda disponibile.</p>;
+
+  const prompt = mixedReverse
+    ? `Cosa significa "${currentCard.verb}" in italiano?`
+    : `Come si dice "${currentCard.translation}" in tedesco?`;
 
   return (
     <div className="card">
@@ -88,15 +71,11 @@ const Quiz: React.FC<QuizProps> = ({
 
       <QuestionForm
         input={input}
-        onChange={(val) => setInput(val)}
-        onSubmit={handleSubmit}
+        onChange={setInput}
+        onSubmit={onSubmit}
         disabled={locked}
         isInputEmpty={input.trim() === ""}
-        prompt={
-          mixedReverse
-            ? `Cosa significa "${currentCard.verb}" in italiano?`
-            : `Come si dice "${currentCard.translation}" in tedesco?`
-        }
+        prompt={prompt}
         feedback={feedback}
         onNext={goToNext}
       />
@@ -104,6 +83,14 @@ const Quiz: React.FC<QuizProps> = ({
       <p>
         Punteggio: {score} / {cards.length} ({percentage}%)
       </p>
+
+      <div className="score-bar">
+        <div
+          className="score-bar-fill"
+          style={{ width: `${percentage}%` }}
+        ></div>
+      </div>
+
       <MistakeList mistakes={mistakes} onRepeat={reviewMistakes} />
     </div>
   );
