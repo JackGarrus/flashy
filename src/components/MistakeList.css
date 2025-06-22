@@ -1,0 +1,12 @@
+.mistake-list {
+  margin-top: 1rem;
+}
+
+.mistake-list ul {
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.mistake-list li {
+  margin-bottom: 0.25rem;
+}

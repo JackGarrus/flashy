@@ -41,4 +41,13 @@ describe("MistakeList", () => {
     fireEvent.click(btn);
     expect(onRepeat).toHaveBeenCalled();
   });
+
+  it("renders all mistaken verbs", () => {
+    render(<MistakeList mistakes={mockMistakes} onRepeat={jest.fn()} />);
+    mockMistakes.forEach((m) => {
+      expect(
+        screen.getByText(new RegExp(`${m.verb} – ${m.translation}`, "i"))
+      ).toBeInTheDocument();
+    });
+  });
 });
