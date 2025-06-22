@@ -1,5 +1,18 @@
 import { useEffect, useState } from "react";
 
+/**
+ * useFavorites manages the user's list of favorite flashcards.
+ * It syncs with localStorage for persistence across sessions.
+ *
+ * Returns:
+ * - favorites: array of IDs marked as favorites
+ * - toggleFavorite: function to add or remove a card from favorites
+ *
+ * Note:
+ * - Favorites are stored in localStorage under the key "favorites"
+ * - The hook automatically loads and persists the state on change
+ */
+
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState<number[]>(() => {
     const stored = localStorage.getItem("favorites");
