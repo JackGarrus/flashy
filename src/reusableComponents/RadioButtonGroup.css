@@ -1,0 +1,45 @@
+.radio-group {
+  border: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.radio-group-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.radio-button {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.radio-button input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-button-label {
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.radio-button input:checked + .radio-button-label {
+  background-color: #007bff;
+  border-color: #0056b3;
+  color: white;
+}
+
+.radio-button input:focus + .radio-button-label {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
