@@ -41,20 +41,22 @@ const App: React.FC = () => {
         onToggleOnlyFavorites={setOnlyFavorites}
       />
 
-      {mode === "flashcard" ? (
-        <FlashcardViewer
-          selectedCategory={selectedCategory}
-          favorites={favorites}
-          onToggleFavorite={toggleFavorite}
-        />
-      ) : (
-        <Quiz
-          selectedCategory={selectedCategory}
-          restrictToCategory={restrictToCategory}
-          onlyFavorites={onlyFavorites}
-          favorites={favorites}
-        />
-      )}
+      <div className="container">
+        {mode === "flashcard" ? (
+          <FlashcardViewer
+            selectedCategory={selectedCategory}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+          />
+        ) : (
+          <Quiz
+            selectedCategory={selectedCategory}
+            restrictToCategory={restrictToCategory}
+            onlyFavorites={onlyFavorites}
+            favorites={favorites}
+          />
+        )}
+      </div>
     </div>
   );
 };

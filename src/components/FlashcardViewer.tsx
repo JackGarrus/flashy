@@ -27,7 +27,7 @@ const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
   if (!current) return null;
 
   return (
-    <div className="container">
+    <>
       <Flashcard
         verb={current.verb}
         translation={current.translation}
@@ -45,7 +45,7 @@ const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
           →
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
