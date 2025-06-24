@@ -1,6 +1,7 @@
 import React from "react";
 import "./ControlPanel.css";
 import RadioButtonGroup from "../reusableComponents/RadioButtonGroup";
+import CustomSelect from "../reusableComponents/CustomSelect";
 
 /**
  * Reusable control panel component that displays:
@@ -50,19 +51,16 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
       />
 
       <div className="section">
-        <label className="select-label">
-          Categoria:
-          <select
-            value={selectedCategory}
-            onChange={(e) => onCategoryChange(e.target.value)}
-          >
-            {categories.map((cat, idx) => (
-              <option key={idx} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </label>
+        <CustomSelect
+          name="category"
+          label="Categoria"
+          selected={selectedCategory}
+          onChange={onCategoryChange}
+          options={categories.map((cat) => ({
+            label: cat,
+            value: cat,
+          }))}
+        />
 
         {mode === "quiz" && (
           <div className="checkbox-group">
