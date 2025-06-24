@@ -2,6 +2,7 @@ import React from "react";
 import "./ControlPanel.css";
 import RadioButtonGroup from "../reusableComponents/RadioButtonGroup";
 import CustomSelect from "../reusableComponents/CustomSelect";
+import CheckboxGroup from "../reusableComponents/CheckboxGroup";
 
 /**
  * Reusable control panel component that displays:
@@ -40,6 +41,24 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
     { label: "Quiz", value: "quiz" },
   ];
 
+  const CHECKBOX_OPTIONS = [
+    {
+      label: "Usa solo verbi di questa categoria",
+      value: "restrict",
+      checked: restrictToCategory,
+    },
+    {
+      label: "Solo preferiti",
+      value: "favorites",
+      checked: onlyFavorites,
+    },
+  ];
+
+  const handleCheckboxChange = (value: string, checked: boolean) => {
+    if (value === "restrict") onToggleRestrict(checked);
+    if (value === "favorites") onToggleOnlyFavorites(checked);
+  };
+
   return (
     <div className="control-panel-container">
       <RadioButtonGroup
@@ -63,24 +82,12 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
         />
 
         {mode === "quiz" && (
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                checked={restrictToCategory}
-                onChange={(e) => onToggleRestrict(e.target.checked)}
-              />{" "}
-              Usa solo verbi di questa categoria
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={onlyFavorites}
-                onChange={(e) => onToggleOnlyFavorites(e.target.checked)}
-              />{" "}
-              Solo preferiti
-            </label>
-          </div>
+          <CheckboxGroup
+            name="quiz-filters"
+            options={CHECKBOX_OPTIONS}
+            onChange={handleCheckboxChange}
+            direction="vertical"
+          />
         )}
       </div>
     </div>
