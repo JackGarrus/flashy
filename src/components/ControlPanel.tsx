@@ -1,8 +1,10 @@
 import React from "react";
+import "./ControlPanel.css";
+import RadioButtonGroup from "../reusableComponents/RadioButtonGroup";
 
 /**
  * Reusable control panel component that displays:
- * - A dropdown to switch between flashcard and quiz modes
+ * - A radio button group to switch between flashcard and quiz modes
  * - A category selector
  * - Optionally, quiz-only filters (restrict to selected category and favorites)
  *
@@ -32,22 +34,20 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
   onlyFavorites,
   onToggleOnlyFavorites,
 }) => {
+  const MODE_OPTIONS = [
+    { label: "Flashcard", value: "flashcard" },
+    { label: "Quiz", value: "quiz" },
+  ];
+
   return (
-    <>
-      <div className="section">
-        <label className="select-label">
-          Modalità:
-          <select
-            value={mode}
-            onChange={(e) =>
-              onModeChange(e.target.value as "flashcard" | "quiz")
-            }
-          >
-            <option value="flashcard">Flashcard</option>
-            <option value="quiz">Quiz</option>
-          </select>
-        </label>
-      </div>
+    <div className="control-panel-container">
+      <RadioButtonGroup
+        name="mode"
+        label="Modalità"
+        options={MODE_OPTIONS}
+        selected={mode}
+        onChange={(val) => onModeChange(val as "flashcard" | "quiz")}
+      />
 
       <div className="section">
         <label className="select-label">
@@ -85,7 +85,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
