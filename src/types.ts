@@ -12,3 +12,5 @@ export interface QuizProps {
   onlyFavorites: boolean;
   favorites: number[];
 }
+
+export type QuizMode = "it-to-de" | "de-to-it" | "mixed";
