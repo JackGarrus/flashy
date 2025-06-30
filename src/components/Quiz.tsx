@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { QuizProps } from "../types";
 import QuestionForm from "./QuestionForm";
 import MistakeList from "./MistakeList";
 import QuizModeSelector from "./QuizModeSelector";
 import { useQuizState } from "../hooks/useQuizState";
 import "./Quiz.css";
+import Card from "../reusableComponents/Card";
+import ProgressBar from "../reusableComponents/ProgressBar";
+import { getPrompt, getQuizDirection } from "../utils/quizMode";
+import { useQuizMode } from "../hooks/useQuizMode";
 
 /**
  * Quiz component that renders a verb translation quiz based on the selected filters.
@@ -43,30 +47,20 @@ const Quiz: React.FC<QuizProps> = ({
   );
 
   const [feedback, setFeedback] = useState<string | null>(null);
-  const [mode, setMode] = useState<"it-to-de" | "de-to-it" | "mixed">(
-    "it-to-de"
-  );
+  const { mode, setMode } = useQuizMode();
 
-  const isReverse = mode === "de-to-it";
-  const isMixed = mode === "mixed";
-  const mixedReverse = isMixed ? index % 2 === 1 : isReverse;
+  if (cards.length === 0 || !currentCard)
+    return <p>Nessuna domanda disponibile.</p>;
+
+  const { mixedReverse } = getQuizDirection(mode, index);
+  const prompt = getPrompt(mode, index, currentCard);
 
   const onSubmit = (e: React.FormEvent) => {
     handleSubmit(e, input, setFeedback, setInput, mixedReverse);
   };
 
-  const percentage =
-    cards.length > 0 ? Math.round((score / cards.length) * 100) : 0;
-
-  if (cards.length === 0 || !currentCard)
-    return <p>Nessuna domanda disponibile.</p>;
-
-  const prompt = mixedReverse
-    ? `Cosa significa "${currentCard.verb}" in italiano?`
-    : `Come si dice "${currentCard.translation}" in tedesco?`;
-
   return (
-    <div className="card">
+    <Card>
       <QuizModeSelector mode={mode} setMode={setMode} />
 
       <QuestionForm
@@ -79,20 +73,10 @@ const Quiz: React.FC<QuizProps> = ({
         feedback={feedback}
         onNext={goToNext}
       />
-
-      <p>
-        Punteggio: {score} / {cards.length} ({percentage}%)
-      </p>
-
-      <div className="score-bar">
-        <div
-          className="score-bar-fill"
-          style={{ width: `${percentage}%` }}
-        ></div>
-      </div>
+      <ProgressBar score={score} total={cards.length} />
 
       <MistakeList mistakes={mistakes} onRepeat={reviewMistakes} />
-    </div>
+    </Card>
   );
 };
 

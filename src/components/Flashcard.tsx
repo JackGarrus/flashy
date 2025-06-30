@@ -1,4 +1,5 @@
 import React from "react";
+import Card from "../reusableComponents/Card";
 
 interface Props {
   verb: string;
@@ -26,7 +27,7 @@ const Flashcard: React.FC<Props> = ({
   onToggleFavorite,
 }) => {
   return (
-    <div className="card">
+    <Card>
       <h2>
         {verb}{" "}
         <button onClick={onToggleFavorite}>{isFavorite ? "⭐" : "☆"}</button>
@@ -44,7 +45,7 @@ const Flashcard: React.FC<Props> = ({
           </p>
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 
