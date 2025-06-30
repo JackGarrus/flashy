@@ -11,6 +11,7 @@ describe("QuestionForm", () => {
     prompt: 'Come si dice "mangiare" in tedesco?',
     feedback: null,
     onNext: jest.fn(),
+    translationDirection: "it-to-de",
   };
 
   it("renders prompt and input correctly", () => {

@@ -2,13 +2,15 @@ import { useState } from "react";
 import { QuizProps } from "../types";
 import QuestionForm from "./QuestionForm";
 import MistakeList from "./MistakeList";
-import QuizModeSelector from "./QuizModeSelector";
+import QuizTranslationDirectionSelector from "./QuizTranslationDirectionSelector";
 import { useQuizState } from "../hooks/useQuizState";
-import "./Quiz.css";
 import Card from "../reusableComponents/Card";
 import ProgressBar from "../reusableComponents/ProgressBar";
-import { getPrompt, getQuizDirection } from "../utils/quizMode";
-import { useQuizMode } from "../hooks/useQuizMode";
+import {
+  getReverseTranslationDirection,
+  getQuizDirection,
+} from "../utils/quizMode";
+import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirection";
 
 /**
  * Quiz component that renders a verb translation quiz based on the selected filters.
@@ -16,7 +18,7 @@ import { useQuizMode } from "../hooks/useQuizMode";
  * Uses useQuizState to handle quiz logic, scoring, mistakes, and progression.
  *
  * Children:
- * - QuizModeSelector: dropdown to switch translation direction.
+ * - QuizTranslationDirectionSelector: dropdown to switch translation direction.
  * - QuestionForm: displays a question and input form.
  * - MistakeList: allows repeating mistakes at the end.
  */
@@ -47,13 +49,18 @@ const Quiz: React.FC<QuizProps> = ({
   );
 
   const [feedback, setFeedback] = useState<string | null>(null);
-  const { mode, setMode } = useQuizMode();
+  const { translationDirection, setTranslationDirection } =
+    useQuizTranslationDirection();
 
   if (cards.length === 0 || !currentCard)
     return <p>Nessuna domanda disponibile.</p>;
 
-  const { mixedReverse } = getQuizDirection(mode, index);
-  const prompt = getPrompt(mode, index, currentCard);
+  const { mixedReverse } = getQuizDirection(translationDirection, index);
+  const prompt = getReverseTranslationDirection(
+    translationDirection,
+    index,
+    currentCard
+  );
 
   const onSubmit = (e: React.FormEvent) => {
     handleSubmit(e, input, setFeedback, setInput, mixedReverse);
@@ -61,7 +68,9 @@ const Quiz: React.FC<QuizProps> = ({
 
   return (
     <Card>
-      <QuizModeSelector mode={mode} setMode={setMode} />
+      <QuizTranslationDirectionSelector
+        onModeChange={setTranslationDirection}
+      />
 
       <QuestionForm
         input={input}
@@ -69,12 +78,12 @@ const Quiz: React.FC<QuizProps> = ({
         onSubmit={onSubmit}
         disabled={locked}
         isInputEmpty={input.trim() === ""}
-        prompt={prompt}
+        translationDirection={prompt}
         feedback={feedback}
         onNext={goToNext}
       />
-      <ProgressBar score={score} total={cards.length} />
 
+      <ProgressBar score={score} total={cards.length} />
       <MistakeList mistakes={mistakes} onRepeat={reviewMistakes} />
     </Card>
   );

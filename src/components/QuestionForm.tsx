@@ -21,7 +21,7 @@ interface QuestionFormProps {
   onSubmit: (e: React.FormEvent) => void;
   disabled: boolean;
   isInputEmpty: boolean;
-  prompt: string;
+  translationDirection: string;
   feedback: string | null;
   onNext: () => void;
 }
@@ -32,13 +32,13 @@ const QuestionForm: React.FC<QuestionFormProps> = ({
   onSubmit,
   disabled,
   isInputEmpty,
-  prompt,
+  translationDirection,
   feedback,
   onNext,
 }) => {
   return (
     <div className="question-form">
-      <p className="prompt">📝 {prompt}</p>
+      <p className="prompt">📝 {translationDirection}</p>
       <form onSubmit={onSubmit} aria-label="quiz-form">
         <input
           type="text"
