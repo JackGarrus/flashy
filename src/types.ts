@@ -13,4 +13,4 @@ export interface QuizProps {
   favorites: number[];
 }
 
-export type QuizMode = "it-to-de" | "de-to-it" | "mixed";
+export type QuizTranslationDirection = "it-to-de" | "de-to-it" | "mixed";
