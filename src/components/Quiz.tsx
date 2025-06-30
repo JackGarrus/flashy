@@ -3,25 +3,14 @@ import { QuizProps } from "../types";
 import QuestionForm from "./QuestionForm";
 import MistakeList from "./MistakeList";
 import QuizTranslationDirectionSelector from "./QuizTranslationDirectionSelector";
-import { useQuizState } from "../hooks/useQuizState";
 import Card from "../reusableComponents/Card";
 import ProgressBar from "../reusableComponents/ProgressBar";
+import { useQuizState } from "../hooks/useQuizState";
 import {
   getReverseTranslationDirection,
   getQuizDirection,
-} from "../utils/quizMode";
+} from "../utils/quizTranslationDirection";
 import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirection";
-
-/**
- * Quiz component that renders a verb translation quiz based on the selected filters.
- * Supports multiple quiz modes (IT→DE, DE→IT, Mixed).
- * Uses useQuizState to handle quiz logic, scoring, mistakes, and progression.
- *
- * Children:
- * - QuizTranslationDirectionSelector: dropdown to switch translation direction.
- * - QuestionForm: displays a question and input form.
- * - MistakeList: allows repeating mistakes at the end.
- */
 
 const Quiz: React.FC<QuizProps> = ({
   selectedCategory,
@@ -52,8 +41,9 @@ const Quiz: React.FC<QuizProps> = ({
   const { translationDirection, setTranslationDirection } =
     useQuizTranslationDirection();
 
-  if (cards.length === 0 || !currentCard)
+  if (cards.length === 0 || !currentCard) {
     return <p>Nessuna domanda disponibile.</p>;
+  }
 
   const { mixedReverse } = getQuizDirection(translationDirection, index);
   const prompt = getReverseTranslationDirection(
@@ -63,7 +53,7 @@ const Quiz: React.FC<QuizProps> = ({
   );
 
   const onSubmit = (e: React.FormEvent) => {
-    handleSubmit(e, input, setFeedback, setInput, mixedReverse);
+    handleSubmit(e, setFeedback, mixedReverse);
   };
 
   return (

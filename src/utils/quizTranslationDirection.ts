@@ -11,11 +11,11 @@ export function getQuizDirection(
 }
 
 export function getReverseTranslationDirection(
-  mode: QuizTranslationDirection,
+  translationDirection: QuizTranslationDirection,
   index: number,
   card: Verb
 ): string {
-  const { mixedReverse } = getQuizDirection(mode, index);
+  const { mixedReverse } = getQuizDirection(translationDirection, index);
   return mixedReverse
     ? `Cosa significa "${card.verb}" in italiano?`
     : `Come si dice "${card.translation}" in tedesco?`;

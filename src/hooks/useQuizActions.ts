@@ -1,48 +1,50 @@
-import { useState } from "react";
-import { Verb } from "../types";
 import { checkAnswer } from "../utils/checkAnswer";
+import { Verb } from "../types";
 
-export function useQuizActions(
-  cards: Verb[],
-  setIndex: React.Dispatch<React.SetStateAction<number>>,
-  currentCard: Verb | undefined
-) {
-  const [input, setInput] = useState("");
-  const [score, setScore] = useState(0);
-  const [locked, setLocked] = useState(false);
-  const [mistakes, setMistakes] = useState<Verb[]>([]);
+interface UseQuizActionsParams {
+  cards: Verb[];
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  currentCard: Verb | undefined;
+  input: string;
+  setInput: (val: string) => void;
+  setLocked: (val: boolean) => void;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
+  setMistakes: React.Dispatch<React.SetStateAction<Verb[]>>;
+  goToNext: () => void;
+}
 
-  const goToNext = () => {
-    setIndex((prev: number) => (prev + 1) % cards.length);
+export function useQuizActions({
+  setIndex,
+  currentCard,
+  input,
+  setInput,
+  setLocked,
+  setScore,
+  setMistakes,
+  goToNext,
+}: UseQuizActionsParams) {
+  const reviewMistakes = () => {
+    setIndex(0);
+    setScore(0);
     setInput("");
     setLocked(false);
-  };
-
-  const reviewMistakes = () => {
-    if (mistakes.length > 0) {
-      setIndex(0);
-      setScore(0);
-      setInput("");
-      setLocked(false);
-      setMistakes([]);
-    }
+    setMistakes([]);
   };
 
   const handleSubmit = (
     e: React.FormEvent,
-    input: string,
     setFeedback: (msg: string | null) => void,
-    setInput: (val: string) => void,
     mixedReverse: boolean
   ) => {
     e.preventDefault();
-    if (locked || input.trim() === "" || !currentCard) return;
+    if (!currentCard || input.trim() === "") return;
 
     const { isCorrect, expected } = checkAnswer(
       input,
       currentCard,
       mixedReverse
     );
+
     setLocked(true);
 
     if (isCorrect) {
@@ -68,17 +70,5 @@ export function useQuizActions(
     }
   };
 
-  return {
-    input,
-    setInput,
-    score,
-    setScore,
-    locked,
-    setLocked,
-    mistakes,
-    setMistakes,
-    goToNext,
-    reviewMistakes,
-    handleSubmit,
-  };
+  return { reviewMistakes, handleSubmit };
 }

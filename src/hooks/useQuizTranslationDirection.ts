@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { QuizTranslationDirection } from "../types";
-
-export const QUIZ_DIRECTIONS = ["it-to-de", "de-to-it", "mixed"] as const;
+import { QUIZ_DIRECTIONS } from "../consts";
 
 /* isValueValidTranslationDirection is a validation of custom types used to prevent that the
  * string passed to this hook corresponds
  * to the following 3 options and no others.
- * This is to prevent unsafe casts: useQuizTranslationDirection(modeFromStorage as QuizDirection);
+ * This is to prevent unsafe casts: useQuizTranslationDirection("string" as QuizDirection) (see tests)
  */
 const isValueValidTranslationDirection = (
   val: any
 ): val is QuizTranslationDirection => QUIZ_DIRECTIONS.includes(val);
 
 export function useQuizTranslationDirection(
-  initialTranslationDirection: any = "it-to-de"
+  initialTranslationDirection: QuizTranslationDirection = "it-to-de"
 ) {
   const [translationDirection, setTranslationDirectionInternal] =
     useState<QuizTranslationDirection>(
