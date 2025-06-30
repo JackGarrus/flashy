@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { useQuizData } from "./useQuizData";
 import { useQuizActions } from "./useQuizActions";
-import { useState } from "react";
-import { Verb } from "../types";
+import { useQuizInput } from "./useQuizInput";
 import { useQuizScore } from "./useQuizScore";
+import { useQuizLock } from "./useQuizLock";
+import { Verb } from "../types";
 
 export function useQuizState(
   selectedCategory: string,
@@ -10,6 +12,7 @@ export function useQuizState(
   onlyFavorites: boolean,
   favorites: number[]
 ) {
+  // Quiz cards and navigation
   const { cards, index, setIndex, currentCard } = useQuizData(
     selectedCategory,
     restrictToCategory,
@@ -17,17 +20,26 @@ export function useQuizState(
     favorites
   );
 
-  const [input, setInput] = useState("");
+  // Input state
+  const { input, setInput, resetInput } = useQuizInput();
+
+  // Score state
   const { score, setScore, resetScore } = useQuizScore();
-  const [locked, setLocked] = useState(false);
+
+  // Lock state (used to prevent interaction after submit)
+  const { locked, setLocked, lock, unlock } = useQuizLock();
+
+  // Mistake tracking
   const [mistakes, setMistakes] = useState<Verb[]>([]);
 
+  // Advance to next card
   const goToNext = () => {
     setIndex((prev) => (prev + 1) % cards.length);
-    setInput("");
-    setLocked(false);
+    resetInput();
+    unlock();
   };
 
+  // Submit handler and review mode
   const { reviewMistakes, handleSubmit } = useQuizActions({
     cards,
     setIndex,
@@ -41,19 +53,11 @@ export function useQuizState(
   });
 
   return {
-    cards,
-    index,
-    input,
-    setInput,
-    score,
-    setScore,
-    locked,
-    setLocked,
-    mistakes,
-    setMistakes,
-    goToNext,
-    reviewMistakes,
-    currentCard,
-    handleSubmit,
+    data: { cards, currentCard, index },
+    input: { input, setInput, resetInput },
+    score: { score, setScore, resetScore },
+    lock: { locked, setLocked, lock, unlock },
+    mistakes: { mistakes, setMistakes },
+    actions: { goToNext, handleSubmit, reviewMistakes },
   };
 }

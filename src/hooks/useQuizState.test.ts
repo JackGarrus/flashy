@@ -43,11 +43,11 @@ describe("useQuizState", () => {
       )
     );
 
-    expect(result.current.cards.length).toBe(3);
-    expect(result.current.index).toBe(0);
-    expect(result.current.input).toBe("");
-    expect(result.current.locked).toBe(false);
-    expect(result.current.mistakes).toEqual([]);
+    expect(result.current.data.cards.length).toBe(3);
+    expect(result.current.data.index).toBe(0);
+    expect(result.current.input.input).toBe("");
+    expect(result.current.lock.locked).toBe(false);
+    expect(result.current.mistakes.mistakes).toEqual([]);
   });
 
   it("can go to next card and reset input", () => {
@@ -61,12 +61,12 @@ describe("useQuizState", () => {
     );
 
     act(() => {
-      result.current.setInput("qualcosa");
-      result.current.goToNext();
+      result.current.input.setInput("qualcosa");
+      result.current.actions.goToNext();
     });
 
-    expect(result.current.index).toBe(1);
-    expect(result.current.input).toBe("");
+    expect(result.current.data.index).toBe(1);
+    expect(result.current.input.input).toBe("");
   });
 
   it("loads only mistakes on reviewMistakes()", () => {
@@ -79,18 +79,18 @@ describe("useQuizState", () => {
       )
     );
 
-    const mistaken = result.current.cards[1];
+    const mistaken = result.current.data.cards[1];
 
     act(() => {
-      result.current.setMistakes([mistaken]);
+      result.current.mistakes.setMistakes([mistaken]);
     });
 
     act(() => {
-      result.current.reviewMistakes();
+      result.current.actions.reviewMistakes();
     });
 
-    expect(result.current.cards.length).toBe(1);
-    expect(result.current.cards[0].verb).toBe(mistaken.verb);
-    expect(result.current.index).toBe(0);
+    expect(result.current.data.cards.length).toBe(1);
+    expect(result.current.data.cards[0].verb).toBe(mistaken.verb);
+    expect(result.current.data.index).toBe(0);
   });
 });

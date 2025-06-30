@@ -19,17 +19,12 @@ const Quiz: React.FC<QuizProps> = ({
   favorites,
 }) => {
   const {
-    cards,
-    index,
-    input,
-    setInput,
-    score,
-    locked,
-    mistakes,
-    goToNext,
-    reviewMistakes,
-    currentCard,
-    handleSubmit,
+    data: { cards, currentCard, index },
+    input: { input, setInput },
+    score: { score },
+    lock: { locked },
+    mistakes: { mistakes },
+    actions: { goToNext, reviewMistakes, handleSubmit },
   } = useQuizState(
     selectedCategory,
     restrictToCategory,
