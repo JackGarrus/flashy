@@ -81,16 +81,19 @@ describe("useQuizState", () => {
 
     const mistaken = result.current.data.cards[1];
 
+    // simulate having a mistake before review
     act(() => {
-      result.current.mistakes.setMistakes([mistaken]);
+      result.current.mistakes.addMistake(mistaken);
     });
 
     act(() => {
       result.current.actions.reviewMistakes();
     });
 
-    expect(result.current.data.cards.length).toBe(1);
-    expect(result.current.data.cards[0].verb).toBe(mistaken.verb);
     expect(result.current.data.index).toBe(0);
+    expect(result.current.input.input).toBe("");
+    expect(result.current.score.score).toBe(0);
+    expect(result.current.lock.locked).toBe(false);
+    expect(result.current.mistakes.mistakes).toEqual([]);
   });
 });

@@ -9,7 +9,8 @@ interface UseQuizActionsParams {
   setInput: (val: string) => void;
   setLocked: (val: boolean) => void;
   setScore: React.Dispatch<React.SetStateAction<number>>;
-  setMistakes: React.Dispatch<React.SetStateAction<Verb[]>>;
+  addMistake: (card: Verb) => void;
+  clearMistakes: () => void;
   goToNext: () => void;
 }
 
@@ -20,7 +21,8 @@ export function useQuizActions({
   setInput,
   setLocked,
   setScore,
-  setMistakes,
+  addMistake,
+  clearMistakes,
   goToNext,
 }: UseQuizActionsParams) {
   const reviewMistakes = () => {
@@ -28,7 +30,7 @@ export function useQuizActions({
     setScore(0);
     setInput("");
     setLocked(false);
-    setMistakes([]);
+    clearMistakes();
   };
 
   const handleSubmit = (
@@ -50,18 +52,13 @@ export function useQuizActions({
     if (isCorrect) {
       setFeedback("✅ Corretto!");
       setScore((prev) => prev + 1);
-      setMistakes((prev) => prev.filter((m) => m.id !== currentCard.id));
       setTimeout(() => {
         goToNext();
         setFeedback(null);
       }, 1000);
     } else {
       setFeedback(`❌ Sbagliato. Era "${expected}"`);
-      setMistakes((prev) =>
-        prev.some((m) => m.id === currentCard.id)
-          ? prev
-          : [...prev, currentCard]
-      );
+      addMistake(currentCard);
       setTimeout(() => {
         setFeedback(null);
         setInput("");

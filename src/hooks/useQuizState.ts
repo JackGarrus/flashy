@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useQuizData } from "./useQuizData";
 import { useQuizActions } from "./useQuizActions";
 import { useQuizInput } from "./useQuizInput";
 import { useQuizScore } from "./useQuizScore";
 import { useQuizLock } from "./useQuizLock";
-import { Verb } from "../types";
+import { useMistakes } from "./useMistakes";
 
 export function useQuizState(
   selectedCategory: string,
@@ -30,7 +29,7 @@ export function useQuizState(
   const { locked, setLocked, lock, unlock } = useQuizLock();
 
   // Mistake tracking
-  const [mistakes, setMistakes] = useState<Verb[]>([]);
+  const { mistakes, addMistake, removeMistake, clearMistakes } = useMistakes();
 
   // Advance to next card
   const goToNext = () => {
@@ -48,7 +47,8 @@ export function useQuizState(
     setInput,
     setLocked,
     setScore,
-    setMistakes,
+    addMistake,
+    clearMistakes,
     goToNext,
   });
 
@@ -57,7 +57,7 @@ export function useQuizState(
     input: { input, setInput, resetInput },
     score: { score, setScore, resetScore },
     lock: { locked, setLocked, lock, unlock },
-    mistakes: { mistakes, setMistakes },
+    mistakes: { mistakes, addMistake, removeMistake, clearMistakes },
     actions: { goToNext, handleSubmit, reviewMistakes },
   };
 }

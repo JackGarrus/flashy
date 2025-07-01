@@ -18,7 +18,8 @@ describe("useQuizActions", () => {
   const setScore = jest.fn();
   const setInput = jest.fn();
   const setLocked = jest.fn();
-  const setMistakes = jest.fn();
+  const addMistake = jest.fn();
+  const clearMistakes = jest.fn();
   const goToNext = jest.fn();
 
   const setup = (input: string, card: Verb | undefined = mockVerb) =>
@@ -31,7 +32,8 @@ describe("useQuizActions", () => {
         setInput,
         setLocked,
         setScore,
-        setMistakes,
+        addMistake,
+        clearMistakes,
         goToNext,
       })
     );
@@ -65,7 +67,6 @@ describe("useQuizActions", () => {
     expect(setLocked).toHaveBeenCalledWith(true);
     expect(setFeedback).toHaveBeenCalledWith("✅ Corretto!");
     expect(setScore).toHaveBeenCalled();
-    expect(setMistakes).toHaveBeenCalled();
 
     act(() => {
       jest.runAllTimers();
@@ -88,7 +89,7 @@ describe("useQuizActions", () => {
 
     expect(setLocked).toHaveBeenCalledWith(true);
     expect(setFeedback).toHaveBeenCalledWith(`❌ Sbagliato. Era "mangiare"`);
-    expect(setMistakes).toHaveBeenCalled();
+    expect(addMistake).toHaveBeenCalledWith(mockVerb);
 
     act(() => {
       jest.runAllTimers();
@@ -107,6 +108,6 @@ describe("useQuizActions", () => {
     expect(setScore).toHaveBeenCalledWith(0);
     expect(setInput).toHaveBeenCalledWith("");
     expect(setLocked).toHaveBeenCalledWith(false);
-    expect(setMistakes).toHaveBeenCalledWith([]);
+    expect(clearMistakes).toHaveBeenCalled();
   });
 });

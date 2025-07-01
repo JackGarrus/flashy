@@ -24,6 +24,7 @@ describe("useMistakes", () => {
     expect(result.current.mistakes).toEqual([]);
   });
 
+  // però questo test non controlla se l'input è sbagliato
   it("adds a new mistake", () => {
     const { result } = renderHook(() => useMistakes());
 
@@ -67,6 +68,7 @@ describe("useMistakes", () => {
     expect(result.current.mistakes).toEqual([]);
   });
 
+  // questa funzionalità non sta venendo usata
   it("clears all mistakes", () => {
     const { result } = renderHook(() => useMistakes());
 
