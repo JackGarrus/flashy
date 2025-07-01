@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { QuizProps } from "../types";
 import QuestionForm from "./QuestionForm";
 import MistakeList from "./MistakeList";
 import QuizTranslationDirectionSelector from "./QuizTranslationDirectionSelector";
@@ -12,25 +11,15 @@ import {
 } from "../utils/quizTranslationDirection";
 import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirection";
 
-const Quiz: React.FC<QuizProps> = ({
-  selectedCategory,
-  restrictToCategory,
-  showOnlyFavourites,
-  favoriteIds,
-}) => {
+const Quiz: React.FC = () => {
   const {
-    data: { cards, currentCard, index },
+    data: { cards, currentCard, revealed },
     input: { input, setInput },
     score: { score },
     lock: { locked },
     mistakes: { mistakes },
     actions: { goToNext, reviewMistakes, handleSubmit },
-  } = useQuizState(
-    selectedCategory,
-    restrictToCategory,
-    showOnlyFavourites,
-    favoriteIds
-  );
+  } = useQuizState();
 
   const [feedback, setFeedback] = useState<string | null>(null);
   const { translationDirection, setTranslationDirection } =
@@ -40,6 +29,7 @@ const Quiz: React.FC<QuizProps> = ({
     return <p>Nessuna domanda disponibile.</p>;
   }
 
+  const index = cards.findIndex((c) => c.id === currentCard.id);
   const { mixedReverse } = getQuizDirection(translationDirection, index);
   const prompt = getReverseTranslationDirection(
     translationDirection,

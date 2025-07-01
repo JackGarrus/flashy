@@ -52,12 +52,7 @@ const App: React.FC = () => {
             updateFavoritesIds={updateFavoriteIds}
           />
         ) : (
-          <Quiz
-            selectedCategory={selectedCategory}
-            restrictToCategory={restrictToCategory}
-            showOnlyFavourites={showOnlyFavourites}
-            favoriteIds={favoriteIds}
-          />
+          <Quiz />
         )}
       </div>
     </div>

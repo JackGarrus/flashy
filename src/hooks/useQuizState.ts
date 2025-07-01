@@ -1,48 +1,37 @@
-import { useQuizData } from "./useQuizData";
+import { useFlashcardFilter } from "./useFlashcardFilter";
+import { useCategoryFilter } from "./useCategoryFilter";
+import { useFavorites } from "./useFavorites";
+import { useFlashcardNavigator } from "./useFlashcardNavigator";
 import { useQuizActions } from "./useQuizActions";
 import { useQuizInput } from "./useQuizInput";
 import { useQuizScore } from "./useQuizScore";
 import { useQuizLock } from "./useQuizLock";
 import { useMistakes } from "./useMistakes";
 
-export function useQuizState(
-  selectedCategory: string,
-  restrictToCategory: boolean,
-  showOnlyFavourites: boolean,
-  favorites: number[]
-) {
-  // Quiz cards and navigation
-  const { cards, index, setIndex, currentCard } = useQuizData(
-    selectedCategory,
-    restrictToCategory,
-    showOnlyFavourites,
-    favorites
+export function useQuizState() {
+  const category = useCategoryFilter();
+  const favorites = useFavorites();
+  const { filteredCards } = useFlashcardFilter(
+    category.selectedCategory,
+    favorites.favoriteIds
   );
-
-  // Input state
+  const { current, revealed, setRevealed, next, prev, hasCards, isFavorite } =
+    useFlashcardNavigator(filteredCards, favorites.favoriteIds);
   const { input, setInput, resetInput } = useQuizInput();
-
-  // Score state
   const { score, setScore, resetScore } = useQuizScore();
-
-  // Lock state (used to prevent interaction after submit)
   const { locked, setLocked, lock, unlock } = useQuizLock();
-
-  // Mistake tracking
   const { mistakes, addMistake, removeMistake, clearMistakes } = useMistakes();
 
-  // Advance to next card
   const goToNext = () => {
-    setIndex((prev) => (prev + 1) % cards.length);
+    next();
     resetInput();
     unlock();
   };
 
-  // Submit handler and review mode
   const { reviewMistakes, handleSubmit } = useQuizActions({
-    cards,
-    setIndex,
-    currentCard,
+    cards: filteredCards,
+    setIndex: () => {}, // not used anymore
+    currentCard: current,
     input,
     setInput,
     setLocked,
@@ -53,11 +42,18 @@ export function useQuizState(
   });
 
   return {
-    data: { cards, currentCard, index },
+    data: {
+      cards: filteredCards,
+      currentCard: current,
+      revealed,
+      isFavorite,
+    },
     input: { input, setInput, resetInput },
     score: { score, setScore, resetScore },
     lock: { locked, setLocked, lock, unlock },
     mistakes: { mistakes, addMistake, removeMistake, clearMistakes },
-    actions: { goToNext, handleSubmit, reviewMistakes },
+    filters: category,
+    favorites,
+    actions: { goToNext, handleSubmit, reviewMistakes, prev, setRevealed },
   };
 }

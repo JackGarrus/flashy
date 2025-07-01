@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Quiz from "./Quiz";
-import * as types from "../types";
 
 jest.mock("../data/verbs.json", () => [
   {
@@ -20,15 +19,8 @@ jest.mock("../data/verbs.json", () => [
 ]);
 
 describe("Quiz integration", () => {
-  const baseProps: types.QuizProps = {
-    selectedCategory: "Tutte",
-    restrictToCategory: false,
-    showOnlyFavourites: false,
-    favoriteIds: [],
-  };
-
   it("renders the first question and allows correct answer", async () => {
-    render(<Quiz {...baseProps} />);
+    render(<Quiz />);
     expect(screen.getByText(/come si dice/i)).toBeInTheDocument();
 
     const input = screen.getByRole("textbox");
@@ -43,7 +35,7 @@ describe("Quiz integration", () => {
   });
 
   it("shows feedback on wrong answer and tracks mistakes", async () => {
-    render(<Quiz {...baseProps} />);
+    render(<Quiz />);
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "falsch" } });
     fireEvent.submit(screen.getByRole("form", { hidden: true }));
@@ -53,7 +45,7 @@ describe("Quiz integration", () => {
   });
 
   it("switches mode correctly to DE → IT", () => {
-    render(<Quiz {...baseProps} />);
+    render(<Quiz />);
     fireEvent.change(screen.getByRole("combobox"), {
       target: { value: "de-to-it" },
     });
@@ -61,7 +53,7 @@ describe("Quiz integration", () => {
   });
 
   it("alternates prompts in mixed mode", () => {
-    render(<Quiz {...baseProps} />);
+    render(<Quiz />);
     fireEvent.change(screen.getByRole("combobox"), {
       target: { value: "mixed" },
     });
