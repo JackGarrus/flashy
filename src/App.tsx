@@ -22,10 +22,13 @@ const App: React.FC = () => {
     setSelectedCategory,
     restrictToCategory,
     setRestrictToCategory,
-    onlyFavorites,
-    setOnlyFavorites,
   } = useCategoryFilter();
-  const { favorites, toggleFavorite } = useFavorites();
+  const {
+    favoriteIds,
+    updateFavoriteIds,
+    showOnlyFavourites,
+    setShowOnlyFavourites,
+  } = useFavorites();
 
   return (
     <div className="container">
@@ -37,23 +40,23 @@ const App: React.FC = () => {
         onCategoryChange={setSelectedCategory}
         restrictToCategory={restrictToCategory}
         onToggleRestrict={setRestrictToCategory}
-        onlyFavorites={onlyFavorites}
-        onToggleOnlyFavorites={setOnlyFavorites}
+        showOnlyFavourites={showOnlyFavourites}
+        onToggleshowOnlyFavourites={setShowOnlyFavourites}
       />
 
       <div className="container">
         {mode === "flashcard" ? (
           <FlashcardViewer
             selectedCategory={selectedCategory}
-            favorites={favorites}
-            onToggleFavorite={toggleFavorite}
+            favorites={favoriteIds}
+            onupdateFavoriteIds={updateFavoriteIds}
           />
         ) : (
           <Quiz
             selectedCategory={selectedCategory}
             restrictToCategory={restrictToCategory}
-            onlyFavorites={onlyFavorites}
-            favorites={favorites}
+            showOnlyFavourites={showOnlyFavourites}
+            favoriteIds={favoriteIds}
           />
         )}
       </div>

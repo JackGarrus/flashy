@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 /**
  * useCategoryFilter manages the state related to verb filtering.
  * It handles:
@@ -11,13 +10,12 @@ import { useState } from "react";
  * - categories: list of available categories
  * - selectedCategory / setSelectedCategory
  * - restrictToCategory / setRestrictToCategory
- * - onlyFavorites / setOnlyFavorites
+ * - showOnlyFavourites / setShowOnlyFavourites
  */
 
 export const useCategoryFilter = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("Tutte");
   const [restrictToCategory, setRestrictToCategory] = useState<boolean>(false);
-  const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
 
   const categories = [
     "Tutte",
@@ -37,7 +35,5 @@ export const useCategoryFilter = () => {
     setSelectedCategory,
     restrictToCategory,
     setRestrictToCategory,
-    onlyFavorites,
-    setOnlyFavorites,
   };
 };

@@ -9,8 +9,8 @@ export interface Verb {
 export interface QuizProps {
   selectedCategory: string;
   restrictToCategory: boolean;
-  onlyFavorites: boolean;
-  favorites: number[];
+  showOnlyFavourites: boolean;
+  favoriteIds: number[];
 }
 
 export type QuizTranslationDirection = "it-to-de" | "de-to-it" | "mixed";

@@ -9,14 +9,14 @@ import { Verb } from "../types";
 export function useQuizState(
   selectedCategory: string,
   restrictToCategory: boolean,
-  onlyFavorites: boolean,
+  showOnlyFavourites: boolean,
   favorites: number[]
 ) {
   // Quiz cards and navigation
   const { cards, index, setIndex, currentCard } = useQuizData(
     selectedCategory,
     restrictToCategory,
-    onlyFavorites,
+    showOnlyFavourites,
     favorites
   );
 

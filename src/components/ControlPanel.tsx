@@ -21,8 +21,8 @@ interface ControlPanelProps {
   onCategoryChange: (category: string) => void;
   restrictToCategory: boolean;
   onToggleRestrict: (value: boolean) => void;
-  onlyFavorites: boolean;
-  onToggleOnlyFavorites: (value: boolean) => void;
+  showOnlyFavourites: boolean;
+  onToggleshowOnlyFavourites: (value: boolean) => void;
 }
 
 const ControlPanel: React.FC<ControlPanelProps> = ({
@@ -33,8 +33,8 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
   onCategoryChange,
   restrictToCategory,
   onToggleRestrict,
-  onlyFavorites,
-  onToggleOnlyFavorites,
+  showOnlyFavourites,
+  onToggleshowOnlyFavourites,
 }) => {
   const MODE_OPTIONS = [
     { label: "Flashcard", value: "flashcard" },
@@ -50,13 +50,13 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
     {
       label: "Solo preferiti",
       value: "favorites",
-      checked: onlyFavorites,
+      checked: showOnlyFavourites,
     },
   ];
 
   const handleCheckboxChange = (value: string, checked: boolean) => {
     if (value === "restrict") onToggleRestrict(checked);
-    if (value === "favorites") onToggleOnlyFavorites(checked);
+    if (value === "favorites") onToggleshowOnlyFavourites(checked);
   };
 
   return (

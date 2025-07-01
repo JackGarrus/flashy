@@ -15,8 +15,8 @@ import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirectio
 const Quiz: React.FC<QuizProps> = ({
   selectedCategory,
   restrictToCategory,
-  onlyFavorites,
-  favorites,
+  showOnlyFavourites,
+  favoriteIds,
 }) => {
   const {
     data: { cards, currentCard, index },
@@ -28,8 +28,8 @@ const Quiz: React.FC<QuizProps> = ({
   } = useQuizState(
     selectedCategory,
     restrictToCategory,
-    onlyFavorites,
-    favorites
+    showOnlyFavourites,
+    favoriteIds
   );
 
   const [feedback, setFeedback] = useState<string | null>(null);

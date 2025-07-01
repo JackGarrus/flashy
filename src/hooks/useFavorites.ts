@@ -1,33 +1,39 @@
 import { useEffect, useState } from "react";
 
 /**
- * useFavorites manages the user's list of favorite flashcards.
- * It syncs with localStorage for persistence across sessions.
+ * useFavorites manages:
+ * - The list of favorite verb IDs (persisted in localStorage)
+ * - A UI-level toggle to show only favorite verbs
  *
  * Returns:
- * - favorites: array of IDs marked as favorites
- * - toggleFavorite: function to add or remove a card from favorites
- *
- * Note:
- * - Favorites are stored in localStorage under the key "favorites"
- * - The hook automatically loads and persists the state on change
+ * - favoriteIds: number[]
+ * - updateFavoriteIds(id): add/remove ID from favorites
+ * - showOnlyFavourites: boolean
+ * - setShowOnlyFavourites: toggle for filtering logic
  */
 
 export const useFavorites = () => {
-  const [favorites, setFavorites] = useState<number[]>(() => {
+  const [favoriteIds, setFavoriteIds] = useState<number[]>(() => {
     const stored = localStorage.getItem("favorites");
     return stored ? JSON.parse(stored) : [];
   });
 
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+  const [showOnlyFavourites, setShowOnlyFavourites] = useState<boolean>(false);
 
-  const toggleFavorite = (id: number) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
-    );
+  useEffect(() => {
+    localStorage.setItem("favorites ids", JSON.stringify(favoriteIds));
+  }, [favoriteIds]);
+
+  const updateFavoriteIds = (id: number) => {
+    setFavoriteIds((prev) => {
+      return prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id];
+    });
   };
 
-  return { favorites, toggleFavorite };
+  return {
+    favoriteIds,
+    updateFavoriteIds,
+    showOnlyFavourites,
+    setShowOnlyFavourites,
+  };
 };

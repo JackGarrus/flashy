@@ -4,12 +4,12 @@ export function filterVerbs(
   allVerbs: Verb[],
   selectedCategory: string,
   restrictToCategory: boolean,
-  onlyFavorites: boolean,
+  showOnlyFavourites: boolean,
   favorites: number[]
 ): Verb[] {
   let filtered = allVerbs;
 
-  if (onlyFavorites) {
+  if (showOnlyFavourites) {
     filtered = filtered.filter((card) => favorites.includes(card.id));
   } else if (restrictToCategory && selectedCategory !== "Tutte") {
     filtered = filtered.filter((card) => card.category === selectedCategory);

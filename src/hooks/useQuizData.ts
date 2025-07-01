@@ -6,7 +6,7 @@ import { filterVerbs } from "../utils/filters";
 export function useQuizData(
   selectedCategory: string,
   restrictToCategory: boolean,
-  onlyFavorites: boolean,
+  showOnlyFavourites: boolean,
   favorites: number[]
 ) {
   const [cards, setCards] = useState<Verb[]>([]);
@@ -17,12 +17,12 @@ export function useQuizData(
       verbs,
       selectedCategory,
       restrictToCategory,
-      onlyFavorites,
+      showOnlyFavourites,
       favorites
     );
     setCards(filtered);
     setIndex(0);
-  }, [selectedCategory, restrictToCategory, onlyFavorites, favorites]);
+  }, [selectedCategory, restrictToCategory, showOnlyFavourites, favorites]);
 
   const currentCard = cards[index];
 

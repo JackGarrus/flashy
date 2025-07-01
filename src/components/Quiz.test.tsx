@@ -23,8 +23,8 @@ describe("Quiz integration", () => {
   const baseProps: types.QuizProps = {
     selectedCategory: "Tutte",
     restrictToCategory: false,
-    onlyFavorites: false,
-    favorites: [],
+    showOnlyFavourites: false,
+    favoriteIds: [],
   };
 
   it("renders the first question and allows correct answer", async () => {

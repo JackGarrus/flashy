@@ -8,7 +8,7 @@ interface Props {
   revealed: boolean;
   onReveal: () => void;
   isFavorite: boolean;
-  onToggleFavorite: () => void;
+  onupdateFavoriteIds: () => void;
 }
 
 const speak = (text: string, lang: string = "de-DE") => {
@@ -24,13 +24,13 @@ const Flashcard: React.FC<Props> = ({
   revealed,
   onReveal,
   isFavorite,
-  onToggleFavorite,
+  onupdateFavoriteIds,
 }) => {
   return (
     <Card>
       <h2>
         {verb}{" "}
-        <button onClick={onToggleFavorite}>{isFavorite ? "⭐" : "☆"}</button>
+        <button onClick={onupdateFavoriteIds}>{isFavorite ? "⭐" : "☆"}</button>
       </h2>
       <button onClick={() => speak(verb)}>🔊 Pronuncia</button>
       {!revealed ? (

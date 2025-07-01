@@ -7,7 +7,6 @@ describe("useCategoryFilter", () => {
 
     expect(result.current.selectedCategory).toBe("Tutte");
     expect(result.current.restrictToCategory).toBe(false);
-    expect(result.current.onlyFavorites).toBe(false);
     expect(result.current.categories).toContain("Preferiti");
   });
 
@@ -29,16 +28,6 @@ describe("useCategoryFilter", () => {
     });
 
     expect(result.current.restrictToCategory).toBe(true);
-  });
-
-  it("should update onlyFavorites", () => {
-    const { result } = renderHook(() => useCategoryFilter());
-
-    act(() => {
-      result.current.setOnlyFavorites(true);
-    });
-
-    expect(result.current.onlyFavorites).toBe(true);
   });
 
   it("should include all predefined categories", () => {

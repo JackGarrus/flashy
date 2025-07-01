@@ -29,7 +29,7 @@ describe("useQuizState", () => {
   const baseArgs = {
     selectedCategory: "Tutte",
     restrictToCategory: false,
-    onlyFavorites: false,
+    showOnlyFavourites: false,
     favorites: [],
   };
 
@@ -38,7 +38,7 @@ describe("useQuizState", () => {
       useQuizState(
         baseArgs.selectedCategory,
         baseArgs.restrictToCategory,
-        baseArgs.onlyFavorites,
+        baseArgs.showOnlyFavourites,
         baseArgs.favorites
       )
     );
@@ -55,7 +55,7 @@ describe("useQuizState", () => {
       useQuizState(
         baseArgs.selectedCategory,
         baseArgs.restrictToCategory,
-        baseArgs.onlyFavorites,
+        baseArgs.showOnlyFavourites,
         baseArgs.favorites
       )
     );
@@ -74,7 +74,7 @@ describe("useQuizState", () => {
       useQuizState(
         baseArgs.selectedCategory,
         baseArgs.restrictToCategory,
-        baseArgs.onlyFavorites,
+        baseArgs.showOnlyFavourites,
         baseArgs.favorites
       )
     );

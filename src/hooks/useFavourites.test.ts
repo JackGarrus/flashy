@@ -9,23 +9,23 @@ describe("useFavorites", () => {
 
   it("should initialize with empty favorites if none in localStorage", () => {
     const { result } = renderHook(() => useFavorites());
-    expect(result.current.favorites).toEqual([]);
+    expect(result.current.favoriteIds).toEqual([]);
   });
 
   it("should initialize with data from localStorage", () => {
     localStorage.setItem("favorites", JSON.stringify([1, 2, 3]));
     const { result } = renderHook(() => useFavorites());
-    expect(result.current.favorites).toEqual([1, 2, 3]);
+    expect(result.current.favoriteIds).toEqual([1, 2, 3]);
   });
 
   it("should add a favorite", () => {
     const { result } = renderHook(() => useFavorites());
 
     act(() => {
-      result.current.toggleFavorite(42);
+      result.current.updateFavoriteIds(42);
     });
 
-    expect(result.current.favorites).toEqual([42]);
+    expect(result.current.favoriteIds).toEqual([42]);
   });
 
   it("should remove a favorite if already present", () => {
@@ -33,10 +33,10 @@ describe("useFavorites", () => {
     const { result } = renderHook(() => useFavorites());
 
     act(() => {
-      result.current.toggleFavorite(2);
+      result.current.updateFavoriteIds(2);
     });
 
-    expect(result.current.favorites).toEqual([1]);
+    expect(result.current.favoriteIds).toEqual([1]);
   });
 
   it("should persist to localStorage when favorites change", () => {
@@ -45,7 +45,7 @@ describe("useFavorites", () => {
     const { result } = renderHook(() => useFavorites());
 
     act(() => {
-      result.current.toggleFavorite(99);
+      result.current.updateFavoriteIds(99);
     });
 
     expect(setItemSpy).toHaveBeenCalledWith("favorites", JSON.stringify([99]));
