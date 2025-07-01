@@ -1,19 +1,4 @@
-import { useEffect, useState } from "react";
-import verbs from "../data/verbs.json";
-
-/**
- * Custom React hook for managing flashcard navigation and filtering logic.
- *
- * Accepts the selected category and list of favorite IDs as input,
- * filters the flashcards accordingly, and manages navigation state (index, reveal).
- *
- * Returns:
- * - current flashcard
- * - whether it's revealed
- * - helper functions to go to the next/previous flashcard
- * - a flag indicating if any cards are available
- * - a flag indicating if the current card is a favorite
- */
+import { useState, useEffect } from "react";
 
 interface Verb {
   id: number;
@@ -23,24 +8,20 @@ interface Verb {
   category: string;
 }
 
+/**
+ * Handles flashcard navigation logic (index, next, prev, reveal).
+ * Requires a list of already-filtered cards.
+ */
 export const useFlashcardNavigator = (
-  selectedCategory: string,
-  favorites: number[]
+  filteredCards: Verb[],
+  favoriteIds: number[]
 ) => {
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
-  const [cards, setCards] = useState<Verb[]>([]);
 
   useEffect(() => {
-    setCards(verbs);
-  }, []);
-
-  const filteredCards =
-    selectedCategory === "Tutte"
-      ? cards
-      : selectedCategory === "Preferiti"
-        ? cards.filter((card) => favorites.includes(card.id))
-        : cards.filter((card) => card.category === selectedCategory);
+    setIndex(0);
+  }, [filteredCards]);
 
   const current = filteredCards[index] || null;
 
@@ -63,6 +44,6 @@ export const useFlashcardNavigator = (
     next,
     prev,
     hasCards: filteredCards.length > 0,
-    isFavorite: current ? favorites.includes(current.id) : false,
+    isFavorite: current ? favoriteIds.includes(current.id) : false,
   };
 };
