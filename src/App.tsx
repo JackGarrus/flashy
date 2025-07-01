@@ -49,7 +49,7 @@ const App: React.FC = () => {
           <FlashcardViewer
             selectedCategory={selectedCategory}
             favorites={favoriteIds}
-            onupdateFavoriteIds={updateFavoriteIds}
+            updateFavoritesIds={updateFavoriteIds}
           />
         ) : (
           <Quiz

@@ -13,13 +13,13 @@ import { useFlashcardNavigator } from "../hooks/useFlashcardNavigator";
 interface FlashcardViewerProps {
   selectedCategory: string;
   favorites: number[];
-  onupdateFavoriteIds: (id: number) => void;
+  updateFavoritesIds: (id: number) => void;
 }
 
 const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
   selectedCategory,
   favorites,
-  onupdateFavoriteIds,
+  updateFavoritesIds,
 }) => {
   const { filteredCards, hasCards } = useFlashcardFilter(
     selectedCategory,
@@ -41,7 +41,7 @@ const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
         revealed={revealed}
         onReveal={() => setRevealed(true)}
         isFavorite={isFavorite}
-        onupdateFavoriteIds={() => onupdateFavoriteIds(current.id)}
+        updateFavoritesIds={() => updateFavoritesIds(current.id)}
       />
       <div>
         <button onClick={prev} className="btn">

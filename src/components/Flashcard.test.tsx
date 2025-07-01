@@ -15,7 +15,7 @@ describe("Flashcard", () => {
     revealed: false,
     onReveal: jest.fn(),
     isFavorite: false,
-    onupdateFavoriteIds: jest.fn(),
+    updateFavoritesIds: jest.fn(),
   };
 
   it("renders verb and favorite button", () => {
@@ -31,10 +31,10 @@ describe("Flashcard", () => {
     expect(baseProps.onReveal).toHaveBeenCalled();
   });
 
-  it("calls onupdateFavoriteIds when favorite button is clicked", () => {
+  it("calls updateFavoritesIds when favorite button is clicked", () => {
     render(<Flashcard {...baseProps} />);
     fireEvent.click(screen.getByRole("button", { name: "☆" }));
-    expect(baseProps.onupdateFavoriteIds).toHaveBeenCalled();
+    expect(baseProps.updateFavoritesIds).toHaveBeenCalled();
   });
 
   it("shows translation and example when revealed is true", () => {

@@ -26,7 +26,7 @@ describe("FlashcardViewer", () => {
       <FlashcardViewer
         selectedCategory="Tutte"
         favorites={[]}
-        onupdateFavoriteIds={toggleFavorite}
+        updateFavoritesIds={toggleFavorite}
       />
     );
 
@@ -42,7 +42,7 @@ describe("FlashcardViewer", () => {
       <FlashcardViewer
         selectedCategory="Casa"
         favorites={[]}
-        onupdateFavoriteIds={() => {}}
+        updateFavoritesIds={() => {}}
       />
     );
 
