@@ -56,7 +56,7 @@ export function useQuizState(
     score: { score, setScore, resetScore },
     lock: { locked, setLocked, lock, unlock },
     mistakes: { mistakes, addMistake, removeMistake, clearMistakes },
-    filters: selectedCategory,
+    filters: { selectedCategory, restrictToCategory, showOnlyFavourites },
     favoriteIds,
     actions: { goToNext, handleSubmit, reviewMistakes, prev, setRevealed },
   };
