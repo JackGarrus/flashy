@@ -80,15 +80,6 @@ const ControlPanel: React.FC<ControlPanelProps> = ({
             value: cat,
           }))}
         />
-
-        {mode === "quiz" && (
-          <CheckboxGroup
-            name="quiz-filters"
-            options={CHECKBOX_OPTIONS}
-            onChange={handleCheckboxChange}
-            direction="vertical"
-          />
-        )}
       </div>
     </div>
   );
