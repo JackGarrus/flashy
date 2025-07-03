@@ -15,7 +15,8 @@ interface Verb {
  */
 export const useFlashcardFilter = (
   selectedCategory: string,
-  favorites: number[]
+  favorites: number[],
+  showOnlyFavourites?: boolean
 ) => {
   const [cards, setCards] = useState<Verb[]>([]);
 
@@ -24,12 +25,22 @@ export const useFlashcardFilter = (
   }, []);
 
   const filteredCards = useMemo(() => {
-    if (selectedCategory === "Tutte") return cards;
-    if (selectedCategory === "Preferiti") {
-      return cards.filter((card) => favorites.includes(card.id));
+    let result = [...cards];
+
+    if (showOnlyFavourites) {
+      result = result.filter((card) => favorites.includes(card.id));
     }
-    return cards.filter((card) => card.category === selectedCategory);
-  }, [selectedCategory, favorites, cards]);
+
+    if (selectedCategory !== "Tutte" && selectedCategory !== "Preferiti") {
+      result = result.filter((card) => card.category === selectedCategory);
+    }
+
+    if (selectedCategory === "Preferiti" && !showOnlyFavourites) {
+      result = cards.filter((card) => favorites.includes(card.id));
+    }
+
+    return result;
+  }, [selectedCategory, favorites, cards, showOnlyFavourites]);
 
   return {
     filteredCards,
