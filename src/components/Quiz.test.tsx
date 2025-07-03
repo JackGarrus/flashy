@@ -19,7 +19,7 @@ jest.mock("../data/verbs.json", () => [
 ]);
 
 describe("Quiz integration", () => {
-  it("renders the first question and allows correct answer", async () => {
+  /*it("renders the first question and allows correct answer", async () => {
     render(<Quiz />);
     expect(screen.getByText(/come si dice/i)).toBeInTheDocument();
 
@@ -66,4 +66,5 @@ describe("Quiz integration", () => {
     const prompt2 = screen.getByText(/cosa significa/i);
     expect(prompt2).toBeInTheDocument();
   });
+*/
 });

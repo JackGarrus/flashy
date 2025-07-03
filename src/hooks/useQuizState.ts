@@ -1,6 +1,4 @@
 import { useFlashcardFilter } from "./useFlashcardFilter";
-import { useCategoryFilter } from "./useCategoryFilter";
-import { useFavorites } from "./useFavorites";
 import { useFlashcardNavigator } from "./useFlashcardNavigator";
 import { useQuizActions } from "./useQuizActions";
 import { useQuizInput } from "./useQuizInput";
@@ -8,15 +6,20 @@ import { useQuizScore } from "./useQuizScore";
 import { useQuizLock } from "./useQuizLock";
 import { useMistakes } from "./useMistakes";
 
-export function useQuizState() {
-  const category = useCategoryFilter();
-  const favorites = useFavorites();
+export function useQuizState(
+  selectedCategory: string,
+  restrictToCategory: boolean,
+  showOnlyFavourites: boolean,
+  favoriteIds: number[]
+) {
   const { filteredCards } = useFlashcardFilter(
-    category.selectedCategory,
-    favorites.favoriteIds
+    selectedCategory,
+    showOnlyFavourites ? favoriteIds : []
   );
+
   const { current, revealed, setRevealed, next, prev, hasCards, isFavorite } =
-    useFlashcardNavigator(filteredCards, favorites.favoriteIds);
+    useFlashcardNavigator(filteredCards, favoriteIds);
+
   const { input, setInput, resetInput } = useQuizInput();
   const { score, setScore, resetScore } = useQuizScore();
   const { locked, setLocked, lock, unlock } = useQuizLock();
@@ -30,7 +33,7 @@ export function useQuizState() {
 
   const { reviewMistakes, handleSubmit } = useQuizActions({
     cards: filteredCards,
-    setIndex: () => {}, // not used anymore
+    setIndex: () => {},
     currentCard: current,
     input,
     setInput,
@@ -47,13 +50,14 @@ export function useQuizState() {
       currentCard: current,
       revealed,
       isFavorite,
+      hasCards,
     },
     input: { input, setInput, resetInput },
     score: { score, setScore, resetScore },
     lock: { locked, setLocked, lock, unlock },
     mistakes: { mistakes, addMistake, removeMistake, clearMistakes },
-    filters: category,
-    favorites,
+    filters: selectedCategory,
+    favoriteIds,
     actions: { goToNext, handleSubmit, reviewMistakes, prev, setRevealed },
   };
 }

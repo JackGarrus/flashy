@@ -10,8 +10,14 @@ import {
   getQuizDirection,
 } from "../utils/quizTranslationDirection";
 import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirection";
+import { QuizProps } from "../types";
 
-const Quiz: React.FC = () => {
+const Quiz = ({
+  selectedCategory,
+  restrictToCategory,
+  showOnlyFavourites,
+  favoriteIds,
+}: QuizProps) => {
   const {
     data: { cards, currentCard, revealed },
     input: { input, setInput },
@@ -19,7 +25,12 @@ const Quiz: React.FC = () => {
     lock: { locked },
     mistakes: { mistakes },
     actions: { goToNext, reviewMistakes, handleSubmit },
-  } = useQuizState();
+  } = useQuizState(
+    selectedCategory,
+    restrictToCategory,
+    showOnlyFavourites,
+    favoriteIds
+  );
 
   const [feedback, setFeedback] = useState<string | null>(null);
   const { translationDirection, setTranslationDirection } =

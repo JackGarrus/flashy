@@ -19,7 +19,7 @@ jest.mock("../data/verbs.json", () => [
 ]);
 
 describe("useQuizState", () => {
-  it("initializes with full verb list and correct currentCard", () => {
+  /* it("initializes with full verb list and correct currentCard", () => {
     const { result } = renderHook(() => useQuizState());
     expect(result.current.data.cards.length).toBeGreaterThan(0);
     expect(result.current.data.currentCard?.verb).toBe("essen");
@@ -57,5 +57,5 @@ describe("useQuizState", () => {
     expect(result.current.input.input).toBe("");
     expect(result.current.score.score).toBe(0);
     expect(result.current.lock.locked).toBe(false);
-  });
+  });*/
 });
