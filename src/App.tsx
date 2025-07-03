@@ -21,14 +21,8 @@ const App: React.FC = () => {
     selectedCategory,
     setSelectedCategory,
     restrictToCategory,
-    setRestrictToCategory,
   } = useCategoryFilter();
-  const {
-    favoriteIds,
-    updateFavoriteIds,
-    showOnlyFavourites,
-    setShowOnlyFavourites,
-  } = useFavorites();
+  const { favoriteIds, updateFavoriteIds, showOnlyFavourites } = useFavorites();
 
   return (
     <div className="container">
@@ -38,10 +32,6 @@ const App: React.FC = () => {
         categories={categories}
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
-        restrictToCategory={restrictToCategory}
-        onToggleRestrict={setRestrictToCategory}
-        showOnlyFavourites={showOnlyFavourites}
-        onToggleshowOnlyFavourites={setShowOnlyFavourites}
       />
 
       <div className="container">
@@ -54,9 +44,9 @@ const App: React.FC = () => {
         ) : (
           <Quiz
             selectedCategory={selectedCategory}
+            favoriteIds={favoriteIds}
             restrictToCategory={restrictToCategory}
             showOnlyFavourites={showOnlyFavourites}
-            favoriteIds={favoriteIds}
           />
         )}
       </div>
