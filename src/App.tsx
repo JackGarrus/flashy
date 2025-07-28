@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import FlashcardViewer from "./components/FlashcardViewer";
 import Quiz from "./components/Quiz";
 import ControlPanel from "./components/ControlPanel";
 import { useFavorites } from "./hooks/useFavorites";
 import { useCategoryFilter } from "./hooks/useCategoryFilter";
 import "./App.css";
+import Card from "./UI/Card";
+import FlashcardList from "./components/Flashcards/FlashcardList";
 
 /**
  * Main application component.
  * - Manages global app state such as the current mode (flashcard or quiz),
  * category selection, and favorite flashcards.
  * - Delegates UI rendering of filters and controls to the ControlPanel component,
- * and switches between FlashcardViewer and Quiz based on the selected mode.
+ * and switches between FlashcardList and Quiz based on the selected mode.
  */
 
 const App: React.FC = () => {
@@ -33,10 +34,10 @@ const App: React.FC = () => {
         selectedCategory={selectedCategory}
         onCategoryChange={setSelectedCategory}
       />
-
-      <div className="container">
+      <br />
+      <Card>
         {mode === "flashcard" ? (
-          <FlashcardViewer
+          <FlashcardList
             selectedCategory={selectedCategory}
             favorites={favoriteIds}
             updateFavoritesIds={updateFavoriteIds}
@@ -49,7 +50,7 @@ const App: React.FC = () => {
             showOnlyFavourites={showOnlyFavourites}
           />
         )}
-      </div>
+      </Card>
     </div>
   );
 };

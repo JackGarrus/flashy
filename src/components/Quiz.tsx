@@ -1,8 +1,7 @@
 import { useState } from "react";
 import QuestionForm from "./QuestionForm";
 import MistakeList from "./Mistake/MistakeList";
-import Card from "../reusableComponents/Card";
-import ProgressBar from "../reusableComponents/ProgressBar";
+import ProgressBar from "../UI/ProgressBar";
 import { useQuizState } from "../hooks/useQuizState";
 import {
   getReverseTranslationDirection,
@@ -11,6 +10,13 @@ import {
 import { useTranslationDirection } from "./TranslationDirection/useTranslationDirection";
 import { QuizProps } from "../types";
 import TranslationDirectionSelector from "./TranslationDirection/TranslationDirectionSelector";
+
+// TODO: BUGS: Quiz è un po' rotto dopo il refactor.
+/* -  se filtri per 'preferiti' ti compare 'Nessuna domanda disponibile.' anche
+      se li hai aggiunti nella modalità flashcard)
+    - la progress bar non si resetta ogni volta che cambi categoria
+    - la prossima domanda non compare anche se la risposta è giusta
+ */
 
 const Quiz = ({
   selectedCategory,
@@ -53,7 +59,8 @@ const Quiz = ({
   };
 
   return (
-    <Card>
+    <>
+      {/* TODO: move this to ControlPanel */}
       <TranslationDirectionSelector onModeChange={setTranslationDirection} />
 
       <QuestionForm
@@ -69,7 +76,7 @@ const Quiz = ({
 
       <ProgressBar score={score} total={cards.length} />
       <MistakeList mistakes={mistakes} onRepeat={reviewMistakes} />
-    </Card>
+    </>
   );
 };
 

@@ -1,22 +1,21 @@
-import React from "react";
 import Flashcard from "./Flashcard";
-import { useFlashcardFilter } from "../hooks/useFlashcardFilter";
-import { useFlashcardNavigator } from "../hooks/useFlashcardNavigator";
+import { useFlashcardFilter } from "../../hooks/useFlashcardFilter";
+import { useFlashcardNavigator } from "../../hooks/useFlashcardNavigator";
 
 /**
- * FlashcardViewer displays flashcards one at a time based on the selected category.
+ * FlashcardList displays flashcards one at a time based on the selected category.
  * It receives the current category and list of favorite IDs as props,
  * and uses custom hooks to manage filtered cards, navigation, and reveal state.
  * The component also supports marking/unmarking the current flashcard as favorite.
  */
 
-interface FlashcardViewerProps {
+interface FlashcardListProps {
   selectedCategory: string;
   favorites: number[];
   updateFavoritesIds: (id: number) => void;
 }
 
-const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
+const FlashcardList: React.FC<FlashcardListProps> = ({
   selectedCategory,
   favorites,
   updateFavoritesIds,
@@ -55,4 +54,4 @@ const FlashcardViewer: React.FC<FlashcardViewerProps> = ({
   );
 };
 
-export default FlashcardViewer;
+export default FlashcardList;

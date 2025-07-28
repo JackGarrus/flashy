@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import FlashcardViewer from "./FlashcardViewer";
+import FlashcardList from "./FlashcardList";
 
 jest.mock("../data/verbs.json", () => [
   {
@@ -18,12 +18,12 @@ jest.mock("../data/verbs.json", () => [
   },
 ]);
 
-describe("FlashcardViewer", () => {
+describe("FlashcardList", () => {
   it("renders a flashcard and handles navigation", async () => {
     const toggleFavorite = jest.fn();
 
     render(
-      <FlashcardViewer
+      <FlashcardList
         selectedCategory="Tutte"
         favorites={[]}
         updateFavoritesIds={toggleFavorite}
@@ -39,7 +39,7 @@ describe("FlashcardViewer", () => {
 
   it("shows fallback message when no cards are available", () => {
     render(
-      <FlashcardViewer
+      <FlashcardList
         selectedCategory="Casa"
         favorites={[]}
         updateFavoritesIds={() => {}}

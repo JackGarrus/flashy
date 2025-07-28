@@ -1,6 +1,3 @@
-import React from "react";
-import Card from "../reusableComponents/Card";
-
 interface Props {
   verb: string;
   translation: string;
@@ -27,7 +24,7 @@ const Flashcard: React.FC<Props> = ({
   updateFavoritesIds,
 }) => {
   return (
-    <Card>
+    <>
       <h2>
         {verb}{" "}
         <button onClick={updateFavoritesIds}>{isFavorite ? "⭐" : "☆"}</button>
@@ -45,7 +42,7 @@ const Flashcard: React.FC<Props> = ({
           </p>
         </div>
       )}
-    </Card>
+    </>
   );
 };
 

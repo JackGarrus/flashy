@@ -1,8 +1,7 @@
 import React from "react";
 import "./ControlPanel.css";
-import RadioButtonGroup from "../reusableComponents/RadioButtonGroup";
-import CustomSelect from "../reusableComponents/CustomSelect";
-import CheckboxGroup from "../reusableComponents/CheckboxGroup";
+import RadioButtonGroup from "../UI/RadioButtonGroup";
+import CustomSelect from "../UI/CustomSelect";
 
 /**
  * Reusable control panel component that displays:

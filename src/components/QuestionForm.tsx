@@ -25,7 +25,7 @@ interface QuestionFormProps {
   feedback: string | null;
   onNext: () => void;
 }
-
+// TODO: refactor this according to Atomic Design
 const QuestionForm: React.FC<QuestionFormProps> = ({
   input,
   onChange,

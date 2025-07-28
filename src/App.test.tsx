@@ -12,7 +12,7 @@ jest.mock("./data/verbs.json", () => [
 ]);
 
 describe("App component", () => {
-  it("renders ControlPanel and FlashcardViewer by default", () => {
+  it("renders ControlPanel and FlashcardList by default", () => {
     render(<App />);
 
     expect(
