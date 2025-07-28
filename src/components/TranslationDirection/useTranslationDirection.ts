@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { QuizTranslationDirection } from "../../types";
+import { TranslationDirection as TD } from "../../types";
 import { QUIZ_DIRECTIONS } from "../../consts";
 
 /* isValueValidTranslationDirection is a validation of custom types used to prevent that the
@@ -7,19 +7,17 @@ import { QUIZ_DIRECTIONS } from "../../consts";
  * to the following 3 options and no others.
  * This is to prevent unsafe casts: useTranslationDirection("string" as QuizDirection) (see tests)
  */
-const isValueValidTranslationDirection = (
-  val: any
-): val is QuizTranslationDirection => QUIZ_DIRECTIONS.includes(val);
+const isValueValidTranslationDirection = (val: any): val is TD =>
+  QUIZ_DIRECTIONS.includes(val);
 
 export function useTranslationDirection(
-  initialTranslationDirection: QuizTranslationDirection = "it-to-de"
+  initialTranslationDirection: TD = "it-to-de"
 ) {
-  const [translationDirection, setTranslationDirectionInternal] =
-    useState<QuizTranslationDirection>(
-      isValueValidTranslationDirection(initialTranslationDirection)
-        ? initialTranslationDirection
-        : "it-to-de"
-    );
+  const [translationDirection, setTranslationDirectionInternal] = useState<TD>(
+    isValueValidTranslationDirection(initialTranslationDirection)
+      ? initialTranslationDirection
+      : "it-to-de"
+  );
 
   const setTranslationDirection = (val: any) => {
     if (isValueValidTranslationDirection(val)) {

@@ -1,5 +1,5 @@
 import { useTranslationDirection } from "./useTranslationDirection";
-import { QuizTranslationDirection } from "../../types";
+import { TranslationDirection as TD } from "../../types";
 import "./TranslationDirectionSelector.css";
 
 const MODES = [
@@ -9,7 +9,7 @@ const MODES = [
 ] as const;
 
 interface Props {
-  onModeChange?: (direction: QuizTranslationDirection) => void;
+  onModeChange?: (direction: TD) => void;
 }
 
 const TranslationDirectionSelector: React.FC<Props> = ({ onModeChange }) => {
@@ -17,7 +17,7 @@ const TranslationDirectionSelector: React.FC<Props> = ({ onModeChange }) => {
     useTranslationDirection();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = e.target.value as QuizTranslationDirection;
+    const selected = e.target.value as TD;
     setTranslationDirection(selected);
     onModeChange?.(selected); // call parent if provided
   };

@@ -1,7 +1,7 @@
-import { QuizTranslationDirection, Verb } from "../../types";
+import { TranslationDirection as TD, Verb } from "../../types";
 
 export function getTranslationDirection(
-  translationDirection: QuizTranslationDirection,
+  translationDirection: TD,
   index: number
 ) {
   const isReverse = translationDirection === "de-to-it";
@@ -12,7 +12,7 @@ export function getTranslationDirection(
 
 // Not sure why this is needed at all
 export function getReverseTranslationDirection(
-  translationDirection: QuizTranslationDirection,
+  translationDirection: TD,
   index: number,
   card: Verb
 ): string {
