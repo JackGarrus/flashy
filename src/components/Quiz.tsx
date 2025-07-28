@@ -1,6 +1,6 @@
 import { useState } from "react";
 import QuestionForm from "./QuestionForm";
-import MistakeList from "./MistakeList";
+import MistakeList from "./Mistake/MistakeList";
 import QuizTranslationDirectionSelector from "./QuizTranslationDirectionSelector";
 import Card from "../reusableComponents/Card";
 import ProgressBar from "../reusableComponents/ProgressBar";
