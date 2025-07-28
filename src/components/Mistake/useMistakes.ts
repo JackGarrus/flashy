@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Verb } from "../types";
+import { Verb } from "../../types";
 
 export function useMistakes() {
   const [mistakes, setMistakes] = useState<Verb[]>([]);

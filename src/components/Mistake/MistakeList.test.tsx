@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import MistakeList from "./MistakeList";
-import { Verb } from "../types";
+import { Verb } from "../../types";
 
 describe("MistakeList", () => {
   const mockMistakes: Verb[] = [

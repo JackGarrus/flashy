@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { useMistakes } from "./useMistakes";
-import { Verb } from "../types";
+import { Verb } from "../../types";
 
 const sampleVerb: Verb = {
   id: 1,
