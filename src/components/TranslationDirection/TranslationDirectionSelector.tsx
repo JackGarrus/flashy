@@ -1,4 +1,4 @@
-import { useQuizTranslationDirection } from "../../hooks/useQuizTranslationDirection";
+import { useTranslationDirection } from "./useTranslationDirection";
 import { QuizTranslationDirection } from "../../types";
 import "./TranslationDirectionSelector.css";
 
@@ -14,7 +14,7 @@ interface Props {
 
 const TranslationDirectionSelector: React.FC<Props> = ({ onModeChange }) => {
   const { translationDirection, setTranslationDirection } =
-    useQuizTranslationDirection();
+    useTranslationDirection();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = e.target.value as QuizTranslationDirection;

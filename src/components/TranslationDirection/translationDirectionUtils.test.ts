@@ -1,12 +1,12 @@
 import {
-  getQuizDirection,
+  getTranslationDirection,
   getReverseTranslationDirection,
-} from "./quizTranslationDirection";
-import { Verb } from "../types";
+} from "./translationDirectionUtils";
+import { Verb } from "../../types";
 
-describe("getQuizDirection", () => {
+describe("translationDirectionUtils", () => {
   it("returns correct flags for de-to-it", () => {
-    expect(getQuizDirection("de-to-it", 0)).toEqual({
+    expect(getTranslationDirection("de-to-it", 0)).toEqual({
       isReverse: true,
       isMixed: false,
       mixedReverse: true,
@@ -14,7 +14,7 @@ describe("getQuizDirection", () => {
   });
 
   it("returns correct flags for it-to-de", () => {
-    expect(getQuizDirection("it-to-de", 0)).toEqual({
+    expect(getTranslationDirection("it-to-de", 0)).toEqual({
       isReverse: false,
       isMixed: false,
       mixedReverse: false,
@@ -22,8 +22,8 @@ describe("getQuizDirection", () => {
   });
 
   it("alternates in mixed mode", () => {
-    expect(getQuizDirection("mixed", 0).mixedReverse).toBe(false);
-    expect(getQuizDirection("mixed", 1).mixedReverse).toBe(true);
+    expect(getTranslationDirection("mixed", 0).mixedReverse).toBe(false);
+    expect(getTranslationDirection("mixed", 1).mixedReverse).toBe(true);
   });
 });
 

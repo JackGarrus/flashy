@@ -1,29 +1,27 @@
 import { renderHook, act } from "@testing-library/react";
-import { useQuizTranslationDirection } from "./useQuizTranslationDirection";
-import { QuizTranslationDirection } from "../types";
+import { useTranslationDirection } from "./useTranslationDirection";
+import { QuizTranslationDirection } from "../../types";
 
-describe("useQuizTranslationDirection", () => {
+describe("useTranslationDirection", () => {
   it("should initialize with default value 'it-to-de'", () => {
-    const { result } = renderHook(() => useQuizTranslationDirection());
+    const { result } = renderHook(() => useTranslationDirection());
     expect(result.current.translationDirection).toBe("it-to-de");
   });
 
   it("should initialize with provided valid translation direction", () => {
-    const { result } = renderHook(() =>
-      useQuizTranslationDirection("de-to-it")
-    );
+    const { result } = renderHook(() => useTranslationDirection("de-to-it"));
     expect(result.current.translationDirection).toBe("de-to-it");
   });
 
   it("should default to 'it-to-de' if initialized with invalid translation direction option", () => {
     const { result } = renderHook(() =>
-      useQuizTranslationDirection("banana" as QuizTranslationDirection)
+      useTranslationDirection("banana" as QuizTranslationDirection)
     );
     expect(result.current.translationDirection).toBe("it-to-de");
   });
 
   it("should update the translation direction value when setTranslationDirection is called with a valid option", () => {
-    const { result } = renderHook(() => useQuizTranslationDirection());
+    const { result } = renderHook(() => useTranslationDirection());
 
     act(() => {
       result.current.setTranslationDirection("mixed");
@@ -33,9 +31,7 @@ describe("useQuizTranslationDirection", () => {
   });
 
   it("should not update the translation direction value when setTranslationDirection is called with an invalid option", () => {
-    const { result } = renderHook(() =>
-      useQuizTranslationDirection("it-to-de")
-    );
+    const { result } = renderHook(() => useTranslationDirection("it-to-de"));
 
     act(() => {
       result.current.setTranslationDirection("invalid-td");
@@ -47,7 +43,7 @@ describe("useQuizTranslationDirection", () => {
   it("should warn when initialized with invalid translation direction option", () => {
     const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
     renderHook(() =>
-      useQuizTranslationDirection("invalid" as QuizTranslationDirection)
+      useTranslationDirection("invalid" as QuizTranslationDirection)
     );
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining("Invalid quiz translation direction")

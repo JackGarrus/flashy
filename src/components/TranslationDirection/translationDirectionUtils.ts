@@ -1,6 +1,6 @@
-import { QuizTranslationDirection, Verb } from "../types";
+import { QuizTranslationDirection, Verb } from "../../types";
 
-export function getQuizDirection(
+export function getTranslationDirection(
   translationDirection: QuizTranslationDirection,
   index: number
 ) {
@@ -10,12 +10,13 @@ export function getQuizDirection(
   return { isReverse, isMixed, mixedReverse };
 }
 
+// Not sure why this is needed at all
 export function getReverseTranslationDirection(
   translationDirection: QuizTranslationDirection,
   index: number,
   card: Verb
 ): string {
-  const { mixedReverse } = getQuizDirection(translationDirection, index);
+  const { mixedReverse } = getTranslationDirection(translationDirection, index);
   return mixedReverse
     ? `Cosa significa "${card.verb}" in italiano?`
     : `Come si dice "${card.translation}" in tedesco?`;

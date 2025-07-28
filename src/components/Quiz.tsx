@@ -6,9 +6,9 @@ import ProgressBar from "../reusableComponents/ProgressBar";
 import { useQuizState } from "../hooks/useQuizState";
 import {
   getReverseTranslationDirection,
-  getQuizDirection,
-} from "../utils/quizTranslationDirection";
-import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirection";
+  getTranslationDirection,
+} from "./TranslationDirection/translationDirectionUtils";
+import { useTranslationDirection } from "./TranslationDirection/useTranslationDirection";
 import { QuizProps } from "../types";
 import TranslationDirectionSelector from "./TranslationDirection/TranslationDirectionSelector";
 
@@ -34,14 +34,14 @@ const Quiz = ({
 
   const [feedback, setFeedback] = useState<string | null>(null);
   const { translationDirection, setTranslationDirection } =
-    useQuizTranslationDirection();
+    useTranslationDirection();
 
   if (cards.length === 0 || !currentCard) {
     return <p>Nessuna domanda disponibile.</p>;
   }
 
   const index = cards.findIndex((c) => c.id === currentCard.id);
-  const { mixedReverse } = getQuizDirection(translationDirection, index);
+  const { mixedReverse } = getTranslationDirection(translationDirection, index);
   const prompt = getReverseTranslationDirection(
     translationDirection,
     index,
