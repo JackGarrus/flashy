@@ -1,6 +1,6 @@
-import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirection";
-import { QuizTranslationDirection } from "../types";
-import "./QuizTranslationDirectionSelector.css";
+import { useQuizTranslationDirection } from "../../hooks/useQuizTranslationDirection";
+import { QuizTranslationDirection } from "../../types";
+import "./TranslationDirectionSelector.css";
 
 const MODES = [
   { value: "it-to-de", label: "IT → DE" },
@@ -12,9 +12,7 @@ interface Props {
   onModeChange?: (direction: QuizTranslationDirection) => void;
 }
 
-const QuizTranslationDirectionSelector: React.FC<Props> = ({
-  onModeChange,
-}) => {
+const TranslationDirectionSelector: React.FC<Props> = ({ onModeChange }) => {
   const { translationDirection, setTranslationDirection } =
     useQuizTranslationDirection();
 
@@ -40,4 +38,4 @@ const QuizTranslationDirectionSelector: React.FC<Props> = ({
   );
 };
 
-export default QuizTranslationDirectionSelector;
+export default TranslationDirectionSelector;

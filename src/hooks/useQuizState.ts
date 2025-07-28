@@ -4,7 +4,7 @@ import { useQuizActions } from "./useQuizActions";
 import { useQuizInput } from "./useQuizInput";
 import { useQuizScore } from "./useQuizScore";
 import { useQuizLock } from "./useQuizLock";
-import { useMistakes } from "./useMistakes";
+import { useMistakes } from "../components/Mistake/useMistakes";
 
 export function useQuizState(
   selectedCategory: string,

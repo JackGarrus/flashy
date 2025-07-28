@@ -1,16 +1,16 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import QuizModeSelector from "./QuizTranslationDirectionSelector";
+import TranslationDirectionSelector from "./TranslationDirectionSelector";
 
-describe("QuizModeSelector", () => {
+describe("TranslationDirectionSelector", () => {
   it("renders all mode options and reflects selected value", () => {
-    render(<QuizModeSelector onModeChange={jest.fn()} />);
+    render(<TranslationDirectionSelector onModeChange={jest.fn()} />);
     expect(screen.getByLabelText(/modalità/i)).toBeInTheDocument();
     expect(screen.getByRole("combobox")).toHaveValue("it-to-de");
   });
 
   it("calls setMode on change", () => {
     const setMode = jest.fn();
-    render(<QuizModeSelector onModeChange={setMode} />);
+    render(<TranslationDirectionSelector onModeChange={setMode} />);
     fireEvent.change(screen.getByRole("combobox"), {
       target: { value: "mixed" },
     });
@@ -18,7 +18,7 @@ describe("QuizModeSelector", () => {
   });
 
   it("renders all available mode options", () => {
-    render(<QuizModeSelector onModeChange={jest.fn()} />);
+    render(<TranslationDirectionSelector onModeChange={jest.fn()} />);
     expect(
       screen.getByRole("option", { name: /IT → DE/i })
     ).toBeInTheDocument();

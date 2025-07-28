@@ -1,7 +1,6 @@
 import { useState } from "react";
 import QuestionForm from "./QuestionForm";
 import MistakeList from "./Mistake/MistakeList";
-import QuizTranslationDirectionSelector from "./QuizTranslationDirectionSelector";
 import Card from "../reusableComponents/Card";
 import ProgressBar from "../reusableComponents/ProgressBar";
 import { useQuizState } from "../hooks/useQuizState";
@@ -11,6 +10,7 @@ import {
 } from "../utils/quizTranslationDirection";
 import { useQuizTranslationDirection } from "../hooks/useQuizTranslationDirection";
 import { QuizProps } from "../types";
+import TranslationDirectionSelector from "./TranslationDirection/TranslationDirectionSelector";
 
 const Quiz = ({
   selectedCategory,
@@ -54,9 +54,7 @@ const Quiz = ({
 
   return (
     <Card>
-      <QuizTranslationDirectionSelector
-        onModeChange={setTranslationDirection}
-      />
+      <TranslationDirectionSelector onModeChange={setTranslationDirection} />
 
       <QuestionForm
         input={input}
