@@ -17,6 +17,8 @@ import TranslationDirectionSelector from "./TranslationDirection/TranslationDire
     - la progress bar non si resetta ogni volta che cambi categoria
     - la prossima domanda non compare anche se la risposta è giusta
  */
+// TODO: crea un context per Quiz e sbarazzati di tutta la miriade di hook che sono
+// soltanto collegati a quiz
 
 const Quiz = ({
   selectedCategory,
@@ -35,7 +37,7 @@ const Quiz = ({
     selectedCategory,
     restrictToCategory,
     showOnlyFavourites,
-    favoriteIds
+    favoriteIds,
   );
 
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -45,13 +47,13 @@ const Quiz = ({
   if (cards.length === 0 || !currentCard) {
     return <p>Nessuna domanda disponibile.</p>;
   }
-
+  // comm
   const index = cards.findIndex((c) => c.id === currentCard.id);
   const { mixedReverse } = getTranslationDirection(translationDirection, index);
   const prompt = getReverseTranslationDirection(
     translationDirection,
     index,
-    currentCard
+    currentCard,
   );
 
   const onSubmit = (e: React.FormEvent) => {
