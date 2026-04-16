@@ -27,6 +27,7 @@ const Quiz = ({
   favoriteIds,
 }: QuizProps) => {
   const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data: { cards, currentCard, revealed },
     input: { input, setInput },
     score: { score },
@@ -47,7 +48,7 @@ const Quiz = ({
   if (cards.length === 0 || !currentCard) {
     return <p>Nessuna domanda disponibile.</p>;
   }
-  // comm
+  // commiit
   const index = cards.findIndex((c) => c.id === currentCard.id);
   const { mixedReverse } = getTranslationDirection(translationDirection, index);
   const prompt = getReverseTranslationDirection(
